@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.example.amanotes.BuildConfig
 import com.example.amanotes.data.local.AppDatabase
 import com.example.amanotes.data.remote.AuthService
+import com.example.amanotes.data.repository.AuthRepository
+import com.example.amanotes.data.repository.TaskRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -37,9 +39,22 @@ object ServiceLocator {
     fun provideDatabase(context: Context): AppDatabase {
         val existing = database
         if (existing != null) return existing
-        val db = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "amanotes.db").build()
+        val db = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "amanotes.db")
+            .fallbackToDestructiveMigration()
+            .build()
         database = db
         return db
+    }
+
+    fun provideAuthRepository(context: Context): AuthRepository {
+        val authService = provideAuthService()
+        val userDao = provideDatabase(context).userDao()
+        return AuthRepository(authService, userDao)
+    }
+
+    fun provideTaskRepository(context: Context): TaskRepository {
+        val taskDao = provideDatabase(context).taskDao()
+        return TaskRepository(taskDao)
     }
 }
 

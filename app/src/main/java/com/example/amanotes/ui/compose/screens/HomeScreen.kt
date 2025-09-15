@@ -1,7 +1,9 @@
 package com.example.amanotes.ui.compose.screens
 
+import android.content.Context
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Notifications
@@ -10,21 +12,24 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.amanotes.data.local.TaskEntity
+import com.example.amanotes.data.repository.TaskRepository
+import com.example.amanotes.di.ServiceLocator
+import com.example.amanotes.ui.compose.components.SwipeableTaskItem
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile: () -> Unit) {
-    data class Task(val title: String, val done: Boolean = false)
-    val tasks = remember {
-        mutableStateListOf(
-            Task("Find place to book"),
-            Task("Shared workspace"),
-            Task("Prepare presentation"),
-            Task("Review code")
-        )
-    }
+    val context = LocalContext.current
+    val taskRepository = remember { ServiceLocator.provideTaskRepository(context) }
+    val scope = rememberCoroutineScope()
+    
+    val allTasks by taskRepository.getAllTasks().collectAsStateWithLifecycle(initialValue = emptyList())
     var newTaskTitle by remember { mutableStateOf("") }
     var showAddDialog by remember { mutableStateOf(false) }
     var filter by remember { mutableStateOf("All") }
@@ -53,12 +58,12 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
         snackbarHost = { SnackbarHost(hostState = snackbar) }
     ) { padding ->
         val visibleTasks = when (filter) {
-            "Pending" -> tasks.filter { !it.done }
-            "Done" -> tasks.filter { it.done }
-            else -> tasks
+            "Pending" -> allTasks.filter { !it.isCompleted }
+            "Done" -> allTasks.filter { it.isCompleted }
+            else -> allTasks
         }
-        val completedCount = tasks.count { it.done }
-        val progress = if (tasks.isEmpty()) 0f else completedCount.toFloat() / tasks.size.toFloat()
+        val completedCount = allTasks.count { it.isCompleted }
+        val progress = if (allTasks.isEmpty()) 0f else completedCount.toFloat() / allTasks.size.toFloat()
 
         LazyColumn(
             modifier = Modifier
@@ -78,7 +83,7 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                         Spacer(Modifier.height(6.dp))
                         LinearProgressIndicator(progress = progress.coerceIn(0f, 1f), modifier = Modifier.fillMaxWidth())
                         Spacer(Modifier.height(6.dp))
-                        Text("$completedCount of ${tasks.size} tasks", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("$completedCount of ${allTasks.size} tasks", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
@@ -101,15 +106,19 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                             Text("Today’s To‑dos", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
                         }
                         Spacer(Modifier.height(8.dp))
-                        visibleTasks.forEach { task ->
-                            ListItem(
-                                headlineContent = { Text(task.title) },
-                                supportingContent = { Text(if (task.done) "Completed" else "Due today", color = MaterialTheme.colorScheme.onSurfaceVariant) },
-                                trailingContent = {
-                                    Checkbox(checked = task.done, onCheckedChange = { checked ->
-                                        val index = tasks.indexOf(task)
-                                        if (index >= 0) tasks[index] = tasks[index].copy(done = checked)
-                                    })
+                        items(visibleTasks) { task ->
+                            SwipeableTaskItem(
+                                task = task,
+                                onToggleComplete = { taskToToggle ->
+                                    scope.launch {
+                                        taskRepository.toggleTaskCompletion(taskToToggle)
+                                    }
+                                },
+                                onDelete = { taskToDelete ->
+                                    scope.launch {
+                                        taskRepository.deleteTask(taskToDelete)
+                                        snackbar.showSnackbar("Task deleted")
+                                    }
                                 }
                             )
                             Divider()
@@ -168,10 +177,14 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                     TextButton(onClick = {
                         val title = newTaskTitle.trim()
                         if (title.isNotEmpty()) {
-                            tasks.add(Task(title))
-                            newTaskTitle = ""
+                            scope.launch {
+                                taskRepository.insertTask(title)
+                                newTaskTitle = ""
+                                showAddDialog = false
+                            }
+                        } else {
+                            showAddDialog = false
                         }
-                        showAddDialog = false
                     }) { Text("Add") }
                 },
                 dismissButton = { TextButton(onClick = { showAddDialog = false }) { Text("Cancel") } },
