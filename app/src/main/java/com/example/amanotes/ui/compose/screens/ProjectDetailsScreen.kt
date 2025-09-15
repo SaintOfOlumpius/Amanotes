@@ -2,11 +2,13 @@ package com.example.amanotes.ui.compose.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -22,17 +24,48 @@ fun ProjectDetailsScreen(onBack: () -> Unit) {
     )
     val doing = listOf("PowerPoint slides", "Research gathering", "Web prototype", "App prototype")
 
-    Scaffold(topBar = { TopAppBar(title = { Text("Project Details") }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, contentDescription = null) } }) }) { padding ->
-        LazyColumn(modifier = Modifier.padding(padding).padding(16.dp)) {
-            items(fields.size) { i ->
-                val (label, value) = fields[i]
-                ListItem(headlineContent = { Text(label) }, supportingContent = { Text(value) })
-                Divider()
+    Scaffold(
+        topBar = { TopAppBar(title = { Text("Project Details", fontWeight = FontWeight.SemiBold) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.Default.ArrowBack, contentDescription = null) } }) }
+    ) { padding ->
+        LazyColumn(
+            modifier = Modifier
+                .padding(padding)
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // Overview card
+            item {
+                ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                        fields.forEach { (label, value) ->
+                            ListItem(headlineContent = { Text(label) }, supportingContent = { Text(value) })
+                            Divider()
+                        }
+                    }
+                }
             }
 
-            item { Spacer(Modifier.height(16.dp)) }
-            item { Text("Doing", style = MaterialTheme.typography.titleMedium) }
-            items(doing.size) { i -> ListItem(headlineContent = { Text(doing[i]) }) }
+            // Doing list card
+            item {
+                ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+                    Column(Modifier.padding(16.dp)) {
+                        Text("Doing", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                        Spacer(Modifier.height(8.dp))
+                        doing.forEach { task ->
+                            ListItem(
+                                leadingContent = { Icon(Icons.Default.CheckCircle, contentDescription = null, tint = MaterialTheme.colorScheme.primary) },
+                                headlineContent = { Text(task) }
+                            )
+                            Divider()
+                        }
+                        Spacer(Modifier.height(8.dp))
+                        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                            Button(onClick = { /* mark complete */ }) { Text("Mark Complete") }
+                            OutlinedButton(onClick = { /* open timeline */ }) { Text("Timeline") }
+                        }
+                    }
+                }
+            }
         }
     }
 }
