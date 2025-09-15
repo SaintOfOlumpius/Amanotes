@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
     id("kotlin-kapt")
 }
 
@@ -39,6 +40,11 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
 }
@@ -49,6 +55,22 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.ktx)
     implementation(libs.material)
+    // Compose BOM
+    implementation(platform(libs.compose.bom))
+    androidTestImplementation(platform(libs.compose.bom))
+    // Compose core
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.tooling.preview)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.animation)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.foundation)
+    implementation(libs.androidx.activity.compose)
+    // Navigation Compose
+    implementation(libs.navigation.compose)
+    implementation(libs.compose.material.icons.extended)
+    implementation(libs.lifecycle.runtime.compose)
     // Retrofit / OkHttp
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.gson)
