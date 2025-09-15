@@ -1,0 +1,46 @@
+package com.example.amanotes.di
+
+import android.content.Context
+import androidx.room.Room
+import com.example.amanotes.BuildConfig
+import com.example.amanotes.data.local.AppDatabase
+import com.example.amanotes.data.remote.AuthService
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+
+object ServiceLocator {
+    @Volatile private var retrofit: Retrofit? = null
+    @Volatile private var database: AppDatabase? = null
+
+    fun provideRetrofit(): Retrofit {
+        val existing = retrofit
+        if (existing != null) return existing
+        val logging = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        val client = OkHttpClient.Builder()
+            .addInterceptor(logging)
+            .build()
+        val instance = Retrofit.Builder()
+            .baseUrl(BuildConfig.BASE_URL)
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        retrofit = instance
+        return instance
+    }
+
+    fun provideAuthService(): AuthService = provideRetrofit().create(AuthService::class.java)
+
+    fun provideDatabase(context: Context): AppDatabase {
+        val existing = database
+        if (existing != null) return existing
+        val db = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "amanotes.db").build()
+        database = db
+        return db
+    }
+}
+
+
