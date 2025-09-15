@@ -7,6 +7,8 @@ import com.example.amanotes.data.local.AppDatabase
 import com.example.amanotes.data.remote.AuthService
 import com.example.amanotes.data.repository.AuthRepository
 import com.example.amanotes.data.repository.TaskRepository
+import com.example.amanotes.data.repository.NoteRepository
+import com.example.amanotes.data.repository.ProjectRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -55,6 +57,16 @@ object ServiceLocator {
     fun provideTaskRepository(context: Context): TaskRepository {
         val taskDao = provideDatabase(context).taskDao()
         return TaskRepository(taskDao)
+    }
+
+    fun provideNoteRepository(context: Context): NoteRepository {
+        val noteDao = provideDatabase(context).noteDao()
+        return NoteRepository(noteDao)
+    }
+
+    fun provideProjectRepository(context: Context): ProjectRepository {
+        val projectDao = provideDatabase(context).projectDao()
+        return ProjectRepository(projectDao)
     }
 }
 

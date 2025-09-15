@@ -3,11 +3,8 @@ package com.example.amanotes.data.repository
 import com.example.amanotes.data.local.TaskDao
 import com.example.amanotes.data.local.TaskEntity
 import kotlinx.coroutines.flow.Flow
-import javax.inject.Inject
 
-class TaskRepository @Inject constructor(
-    private val taskDao: TaskDao
-) {
+class TaskRepository(private val taskDao: TaskDao) {
     fun getAllTasks(): Flow<List<TaskEntity>> = taskDao.getAllTasks()
     
     fun getTasksByCompletion(isCompleted: Boolean): Flow<List<TaskEntity>> = 
