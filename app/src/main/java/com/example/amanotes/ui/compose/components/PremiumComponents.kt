@@ -27,7 +27,7 @@ import com.example.amanotes.ui.compose.theme.AmanotesColors
 fun PremiumCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
-    elevation: Int = 8,
+    elevation: Int = 12,
     content: @Composable ColumnScope.() -> Unit
 ) {
     val clickableModifier = if (onClick != null) {
@@ -38,9 +38,13 @@ fun PremiumCard(
         modifier = modifier.then(clickableModifier),
         elevation = CardDefaults.cardElevation(defaultElevation = elevation.dp),
         colors = CardDefaults.cardColors(
-            containerColor = AmanotesColors.SurfaceVariant
+            containerColor = AmanotesColors.SurfaceContainer
         ),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(20.dp),
+        border = androidx.compose.foundation.BorderStroke(
+            1.dp, 
+            AmanotesColors.Accent.copy(alpha = 0.2f)
+        )
     ) {
         Column(content = content)
     }
@@ -59,18 +63,19 @@ fun GradientCard(
     Box(
         modifier = modifier
             .then(clickableModifier)
-            .clip(RoundedCornerShape(16.dp))
+            .clip(RoundedCornerShape(24.dp))
             .background(
                 Brush.linearGradient(
                     colors = listOf(
                         AmanotesColors.GradientStart,
-                        AmanotesColors.GradientEnd
+                        AmanotesColors.GradientEnd,
+                        AmanotesColors.Primary
                     )
                 )
             )
     ) {
         Column(
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.padding(28.dp),
             content = content
         )
     }
@@ -93,7 +98,7 @@ fun PremiumButton(
 
     val backgroundBrush = when (variant) {
         ButtonVariant.Primary -> Brush.linearGradient(
-            colors = listOf(AmanotesColors.Primary, AmanotesColors.Secondary)
+            colors = listOf(AmanotesColors.GradientStart, AmanotesColors.GradientEnd)
         )
         ButtonVariant.Secondary -> Brush.linearGradient(
             colors = listOf(AmanotesColors.SurfaceVariant, AmanotesColors.SurfaceContainer)
@@ -111,8 +116,8 @@ fun PremiumButton(
             .then(
                 if (variant == ButtonVariant.Outlined) {
                     Modifier.border(
-                        1.dp,
-                        AmanotesColors.Primary,
+                        1.5.dp,
+                        AmanotesColors.Accent,
                         RoundedCornerShape(12.dp)
                     )
                 } else Modifier

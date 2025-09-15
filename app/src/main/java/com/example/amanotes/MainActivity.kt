@@ -26,7 +26,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.amanotes.ui.compose.screens.AuthenticationScreen
+import com.example.amanotes.ui.compose.screens.AuthScreen
 import com.example.amanotes.ui.compose.screens.HomeScreen
 import com.example.amanotes.ui.compose.screens.NotesScreen
 import com.example.amanotes.ui.compose.screens.ProfileSettingsScreen
@@ -64,7 +64,7 @@ fun AppNav(darkMode: Boolean, onToggleDark: () -> Unit) {
         }
     }) { padding ->
         NavHost(navController = navController, startDestination = "auth", modifier = Modifier.padding(padding)) {
-            composable("auth") { AuthenticationScreen(onAuthenticated = { navController.navigate("home") { popUpTo("auth") { inclusive = true } } }) }
+            composable("auth") { AuthScreen(onAuthSuccess = { navController.navigate("home") { popUpTo("auth") { inclusive = true } } }) }
             composable("home") { HomeScreen(onOpenProject = { navController.navigate("project") }, onOpenNotes = { navController.navigate("notes") }, onOpenProfile = { navController.navigate("profile") }) }
             composable("project") { ProjectDetailsScreen(onBack = { navController.popBackStack() }) }
             composable("profile") { ProfileSettingsScreen(darkMode = darkMode, onToggleDark = onToggleDark, onBack = { navController.popBackStack() }) }

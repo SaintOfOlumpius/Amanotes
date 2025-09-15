@@ -22,4 +22,14 @@ class SignupViewModelFactory(private val context: Context) : ViewModelProvider.F
     }
 }
 
+object ViewModelFactories {
+    fun createLoginViewModel(authRepository: AuthRepository): LoginViewModel {
+        return LoginViewModel(authRepository)
+    }
+    
+    fun createSignupViewModel(authRepository: AuthRepository): SignupViewModel {
+        return SignupViewModel(authRepository)
+    }
+}
+
 

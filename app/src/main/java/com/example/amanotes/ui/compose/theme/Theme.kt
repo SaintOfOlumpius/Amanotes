@@ -11,37 +11,48 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
-// Premium Color Palette
+// Dark Academia Color Palette
 object AmanotesColors {
-    // Primary Colors - Elegant Blue/Purple gradient
-    val Primary = Color(0xFF6366F1) // Indigo
-    val PrimaryVariant = Color(0xFF4F46E5) // Darker indigo
-    val Secondary = Color(0xFF06B6D4) // Cyan
-    val SecondaryVariant = Color(0xFF0891B2) // Darker cyan
+    // Primary Colors - Rich burgundy and deep forest green
+    val Primary = Color(0xFF8B4513) // Saddle brown
+    val PrimaryVariant = Color(0xFF654321) // Dark brown
+    val Secondary = Color(0xFF2F4F2F) // Dark slate gray (forest green)
+    val SecondaryVariant = Color(0xFF1C3A1C) // Darker forest green
+
+    // Surface Colors for dark academia theme
+    val Surface = Color(0xFF1A1610) // Very dark brown-black
+    val SurfaceVariant = Color(0xFF2D2418) // Dark sepia
+    val SurfaceContainer = Color(0xFF3D3025) // Medium brown
+    val SurfaceContainerHigh = Color(0xFF4A3D2E) // Lighter brown
+
+    // Background - Deep parchment/library feel
+    val Background = Color(0xFF0F0D0A) // Almost black with brown tint
+
+    // Accent colors for dark academia
+    val Accent = Color(0xFFD4AF37) // Antique gold
+    val AccentVariant = Color(0xFFB8860B) // Dark goldenrod
     
-    // Surface Colors for dark theme
-    val Surface = Color(0xFF0F172A) // Very dark blue
-    val SurfaceVariant = Color(0xFF1E293B) // Dark blue-gray
-    val SurfaceContainer = Color(0xFF334155) // Medium blue-gray
+    // On Colors - Warm off-whites and creams
+    val OnPrimary = Color(0xFFFFF8DC) // Cornsilk
+    val OnSecondary = Color(0xFFFAF0E6) // Linen
+    val OnSurface = Color(0xFFF5F5DC) // Beige
+    val OnSurfaceVariant = Color(0xFFD2B48C) // Tan
+    val OnBackground = Color(0xFFFFFAF0) // Floral white
+
+    // Status Colors - Muted earth tones
+    val Success = Color(0xFF556B2F) // Dark olive green
+    val Warning = Color(0xFFCD853F) // Peru
+    val Error = Color(0xFF8B4B4B) // Dark salmon
+
+    // Gradient Colors - Warm book/leather tones
+    val GradientStart = Color(0xFF8B4513) // Saddle brown
+    val GradientEnd = Color(0xFFD4AF37) // Antique gold
     
-    // Background
-    val Background = Color(0xFF020617) // Almost black with blue tint
-    
-    // On Colors
-    val OnPrimary = Color(0xFFFFFFFF)
-    val OnSecondary = Color(0xFFFFFFFF)
-    val OnSurface = Color(0xFFF8FAFC) // Very light blue-white
-    val OnSurfaceVariant = Color(0xFF94A3B8) // Light blue-gray
-    val OnBackground = Color(0xFFF1F5F9) // Light gray-white
-    
-    // Status Colors
-    val Success = Color(0xFF10B981) // Green
-    val Warning = Color(0xFFF59E0B) // Amber
-    val Error = Color(0xFFEF4444) // Red
-    
-    // Gradient Colors
-    val GradientStart = Color(0xFF6366F1)
-    val GradientEnd = Color(0xFF06B6D4)
+    // Additional Dark Academia Colors
+    val Leather = Color(0xFF704214) // Dark leather brown
+    val Parchment = Color(0xFFF7F3E9) // Old parchment
+    val InkBlue = Color(0xFF2F4F4F) // Dark slate gray
+    val VintageGold = Color(0xFFDAA520) // Goldenrod
 }
 
 private val DarkColors = darkColorScheme(
@@ -82,55 +93,73 @@ private val LightColors = lightColorScheme(
     onSurface = Color(0xFF1A1A1A),
 )
 
-// Premium Typography
+// Dark Academia Typography - Scholarly and elegant
 private val AmanotesTypography = Typography(
     displayLarge = TextStyle(
-        fontWeight = FontWeight.Bold,
-        fontSize = 36.sp,
-        lineHeight = 44.sp,
-        letterSpacing = (-0.25).sp
+        fontWeight = FontWeight.ExtraBold,
+        fontSize = 40.sp,
+        lineHeight = 48.sp,
+        letterSpacing = (-0.5).sp
     ),
     headlineLarge = TextStyle(
         fontWeight = FontWeight.Bold,
+        fontSize = 32.sp,
+        lineHeight = 40.sp,
+        letterSpacing = (-0.25).sp
+    ),
+    headlineMedium = TextStyle(
+        fontWeight = FontWeight.SemiBold,
         fontSize = 28.sp,
         lineHeight = 36.sp,
         letterSpacing = 0.sp
     ),
-    headlineMedium = TextStyle(
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 24.sp,
-        lineHeight = 32.sp,
-        letterSpacing = 0.sp
-    ),
     titleLarge = TextStyle(
         fontWeight = FontWeight.SemiBold,
-        fontSize = 20.sp,
-        lineHeight = 28.sp,
+        fontSize = 22.sp,
+        lineHeight = 30.sp,
         letterSpacing = 0.sp
     ),
     titleMedium = TextStyle(
         fontWeight = FontWeight.Medium,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.1.sp
+        fontSize = 18.sp,
+        lineHeight = 26.sp,
+        letterSpacing = 0.15.sp
     ),
     bodyLarge = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        lineHeight = 26.sp,
+        letterSpacing = 0.15.sp
     ),
     bodyMedium = TextStyle(
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
-        lineHeight = 20.sp,
+        lineHeight = 22.sp,
         letterSpacing = 0.25.sp
+    ),
+    bodySmall = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontSize = 12.sp,
+        lineHeight = 18.sp,
+        letterSpacing = 0.4.sp
     ),
     labelLarge = TextStyle(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.1.sp
+    ),
+    labelMedium = TextStyle(
+        fontWeight = FontWeight.Medium,
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.5.sp
+    ),
+    labelSmall = TextStyle(
+        fontWeight = FontWeight.Medium,
+        fontSize = 10.sp,
+        lineHeight = 14.sp,
+        letterSpacing = 0.5.sp
     )
 )
 
