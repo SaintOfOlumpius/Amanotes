@@ -21,14 +21,15 @@ class AuthRepository(
         }
         
         // First check if this is a locally registered user
-        val existingUser = userDao.observeCurrentUser().firstOrNull()
-        if (existingUser?.email?.equals(email, ignoreCase = true) == true) {
+        val existingUser = userDao.getUserByEmail(email)
+        if (existingUser != null) {
             // User exists locally (from signup), just validate password length and log them in
             if (password.length >= 6) {
                 val updatedUser = existingUser.copy(
                     token = "local_token_${System.currentTimeMillis()}"
                 )
-                userDao.upsert(updatedUser)
+                userDao.clear() // Clear any other users
+                userDao.upsert(updatedUser) // Set as current user
                 return@runCatching
             } else {
                 throw Exception("Password must be at least 6 characters")
@@ -109,8 +110,8 @@ class AuthRepository(
         // endpoint has API key requirements. We'll create a local user account.
         
         // Check if user already exists locally
-        val existingUser = userDao.observeCurrentUser().firstOrNull()
-        if (existingUser?.email?.equals(email, ignoreCase = true) == true) {
+        val existingUser = userDao.getUserByEmail(email)
+        if (existingUser != null) {
             throw Exception("User with this email already exists")
         }
         
@@ -147,6 +148,10 @@ class AuthRepository(
     
     suspend fun getCurrentUser(): UserEntity? {
         return userDao.observeCurrentUser().firstOrNull()
+    }
+    
+    suspend fun getUserByEmail(email: String): UserEntity? {
+        return userDao.getUserByEmail(email)
     }
     
     suspend fun logout(): Result<Unit> = runCatching {

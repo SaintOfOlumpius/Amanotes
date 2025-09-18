@@ -13,6 +13,9 @@ interface UserDao {
 
     @Query("SELECT * FROM users LIMIT 1")
     fun observeCurrentUser(): Flow<UserEntity?>
+    
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    suspend fun getUserByEmail(email: String): UserEntity?
 
     @Query("DELETE FROM users")
     suspend fun clear()
