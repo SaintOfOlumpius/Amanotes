@@ -1,17 +1,23 @@
 package com.example.amanotes.data.remote
 
-import com.example.amanotes.data.remote.dto.AuthResponse
-import com.example.amanotes.data.remote.dto.LoginRequest
-import com.example.amanotes.data.remote.dto.SignupRequest
+import com.example.amanotes.data.remote.dto.ReqresAuthResponse
+import com.example.amanotes.data.remote.dto.ReqresLoginRequest
+import com.example.amanotes.data.remote.dto.ReqresRegisterRequest
+import com.example.amanotes.data.remote.dto.ReqresUsersResponse
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface AuthService {
-    @POST("auth/login")
-    suspend fun login(@Body body: LoginRequest): AuthResponse
+    @POST("api/login")
+    suspend fun login(@Body body: ReqresLoginRequest): ReqresAuthResponse
 
-    @POST("auth/signup")
-    suspend fun signup(@Body body: SignupRequest): AuthResponse
+    @POST("api/register")
+    suspend fun register(@Body body: ReqresRegisterRequest): ReqresAuthResponse
+    
+    @GET("api/users")
+    suspend fun getUsers(@Query("page") page: Int = 1): ReqresUsersResponse
 }
 
 

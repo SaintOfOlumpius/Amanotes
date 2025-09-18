@@ -22,10 +22,17 @@ object ServiceLocator {
         val existing = retrofit
         if (existing != null) return existing
         val logging = HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BASIC
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
         }
         val client = OkHttpClient.Builder()
             .addInterceptor(logging)
+            .connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
             .build()
         val instance = Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
