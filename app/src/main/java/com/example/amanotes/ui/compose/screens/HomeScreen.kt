@@ -22,6 +22,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.amanotes.data.local.TaskEntity
 import com.example.amanotes.data.repository.TaskRepository
+import com.example.amanotes.data.repository.NoteRepository
+import com.example.amanotes.data.repository.ProjectRepository
+import com.example.amanotes.data.repository.AuthRepository
 import com.example.amanotes.di.ServiceLocator
 import com.example.amanotes.ui.compose.components.*
 import com.example.amanotes.ui.compose.theme.AmanotesColors
@@ -34,18 +37,37 @@ import java.util.*
 fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile: () -> Unit) {
     val context = LocalContext.current
     val taskRepository = remember { ServiceLocator.provideTaskRepository(context) }
+    val noteRepository = remember { ServiceLocator.provideNoteRepository(context) }
+    val projectRepository = remember { ServiceLocator.provideProjectRepository(context) }
+    val authRepository = remember { ServiceLocator.provideAuthRepository(context) }
     val scope = rememberCoroutineScope()
     
+    // Data states
     val allTasks by taskRepository.getAllTasks().collectAsStateWithLifecycle(initialValue = emptyList())
+    val allNotes by noteRepository.getAllNotes().collectAsStateWithLifecycle(initialValue = emptyList())
+    val allProjects by projectRepository.getAllProjects().collectAsStateWithLifecycle(initialValue = emptyList())
+    
+    // UI states
     var newTaskTitle by remember { mutableStateOf("") }
     var showAddDialog by remember { mutableStateOf(false) }
     var filter by remember { mutableStateOf("All") }
     val snackbar = remember { SnackbarHostState() }
+    
+    // User state
+    var currentUser by remember { mutableStateOf<com.example.amanotes.data.local.UserEntity?>(null) }
+    
+    // Load current user
+    LaunchedEffect(Unit) {
+        currentUser = authRepository.getCurrentUser()
+    }
 
-    // Calculate statistics
+    // Calculate comprehensive statistics
     val completedCount = allTasks.count { it.isCompleted }
     val progress = if (allTasks.isEmpty()) 0f else completedCount.toFloat() / allTasks.size.toFloat()
     val todayTasks = allTasks.filter { !it.isCompleted }
+    val recentNotes = allNotes.take(3)
+    val activeProjects = allProjects.filter { it.status == com.example.amanotes.data.local.ProjectStatus.IN_PROGRESS }
+    val completedProjects = allProjects.count { it.status == com.example.amanotes.data.local.ProjectStatus.COMPLETED }
     
     // Get current time info
     val currentDate = remember { SimpleDateFormat("EEEE, MMM dd", Locale.getDefault()).format(Date()) }
@@ -64,8 +86,16 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
             TopAppBar(
                 title = { 
                     Column {
-                        Text("Welcome back!", style = MaterialTheme.typography.titleLarge)
-                        Text(currentDate, style = MaterialTheme.typography.bodyMedium, color = AmanotesColors.OnSurfaceVariant)
+                        Text(
+                            text = "Welcome back, ${currentUser?.name?.split(" ")?.firstOrNull() ?: "Scholar"}!", 
+                            style = MaterialTheme.typography.titleLarge,
+                            color = AmanotesColors.OnSurface
+                        )
+                        Text(
+                            text = currentDate, 
+                            style = MaterialTheme.typography.bodyMedium, 
+                            color = AmanotesColors.OnSurfaceVariant
+                        )
                     }
                 },
                 actions = {
@@ -160,6 +190,134 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                         trend = if (progress > 0.5f) TrendDirection.Up else TrendDirection.Neutral,
                         modifier = Modifier.weight(1f)
                     )
+                }
+            }
+
+            // Recent Notes Preview
+            if (recentNotes.isNotEmpty()) {
+                item {
+                    PremiumCard(modifier = Modifier.fillMaxWidth()) {
+                        Column(modifier = Modifier.padding(20.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Recent Notes",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = AmanotesColors.OnSurface
+                                )
+                                PremiumButton(
+                                    text = "View All",
+                                    onClick = onOpenNotes,
+                                    variant = ButtonVariant.Outlined
+                                )
+                            }
+                            
+                            Spacer(modifier = Modifier.height(12.dp))
+                            
+                            recentNotes.forEach { note ->
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 4.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        Icons.Default.Description,
+                                        contentDescription = null,
+                                        tint = AmanotesColors.Primary,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(12.dp))
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = note.title,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Medium,
+                                            color = AmanotesColors.OnSurface,
+                                            maxLines = 1
+                                        )
+                                        Text(
+                                            text = note.category,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = AmanotesColors.OnSurfaceVariant
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Active Projects Preview
+            if (activeProjects.isNotEmpty()) {
+                item {
+                    PremiumCard(modifier = Modifier.fillMaxWidth()) {
+                        Column(modifier = Modifier.padding(20.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = "Active Projects",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    fontWeight = FontWeight.SemiBold,
+                                    color = AmanotesColors.OnSurface
+                                )
+                                PremiumButton(
+                                    text = "View All",
+                                    onClick = onOpenProject,
+                                    variant = ButtonVariant.Outlined
+                                )
+                            }
+                            
+                            Spacer(modifier = Modifier.height(12.dp))
+                            
+                            activeProjects.take(3).forEach { project ->
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 4.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Icon(
+                                        Icons.Default.Folder,
+                                        contentDescription = null,
+                                        tint = AmanotesColors.Secondary,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(12.dp))
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = project.title,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Medium,
+                                            color = AmanotesColors.OnSurface,
+                                            maxLines = 1
+                                        )
+                                        Text(
+                                            text = "${(project.progress * 100).toInt()}% complete",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = AmanotesColors.OnSurfaceVariant
+                                        )
+                                    }
+                                    LinearProgressIndicator(
+                                        progress = { project.progress },
+                                        modifier = Modifier
+                                            .width(60.dp)
+                                            .height(4.dp),
+                                        color = AmanotesColors.Primary,
+                                        trackColor = AmanotesColors.SurfaceVariant
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
 

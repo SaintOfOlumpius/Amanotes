@@ -9,7 +9,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.Assignment
 import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -34,7 +36,9 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProfileSettingsScreen(
     darkMode: Boolean,
+    appTheme: com.example.amanotes.ui.compose.theme.AppTheme,
     onToggleDark: () -> Unit,
+    onThemeChange: (com.example.amanotes.ui.compose.theme.AppTheme) -> Unit,
     onBack: () -> Unit,
     onNavigateToAuth: () -> Unit = {}
 ) {
@@ -66,6 +70,7 @@ fun ProfileSettingsScreen(
     
     // Dialog states
     var showEditProfile by remember { mutableStateOf(false) }
+    var showThemeSelector by remember { mutableStateOf(false) }
     var showNotificationSettings by remember { mutableStateOf(false) }
     var showPrivacySettings by remember { mutableStateOf(false) }
     var showSecuritySettings by remember { mutableStateOf(false) }
@@ -159,16 +164,18 @@ fun ProfileSettingsScreen(
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    QuickSettingsSection(
-                        darkMode = darkMode,
-                        notificationsEnabled = notificationsEnabled,
-                        soundEnabled = soundEnabled,
-                        autoSync = autoSync,
-                        onToggleDark = onToggleDark,
-                        onToggleNotifications = viewModel::toggleNotifications,
-                        onToggleSound = viewModel::toggleSound,
-                        onToggleAutoSync = viewModel::toggleAutoSync
-                    )
+                           QuickSettingsSection(
+                               darkMode = darkMode,
+                               appTheme = appTheme,
+                               notificationsEnabled = notificationsEnabled,
+                               soundEnabled = soundEnabled,
+                               autoSync = autoSync,
+                               onToggleDark = onToggleDark,
+                               onShowThemeSelector = { showThemeSelector = true },
+                               onToggleNotifications = viewModel::toggleNotifications,
+                               onToggleSound = viewModel::toggleSound,
+                               onToggleAutoSync = viewModel::toggleAutoSync
+                           )
                     
                     Spacer(modifier = Modifier.height(24.dp))
                     
@@ -208,16 +215,18 @@ fun ProfileSettingsScreen(
                 
                 // Quick Settings
                 item {
-                    QuickSettingsSection(
-                        darkMode = darkMode,
-                        notificationsEnabled = notificationsEnabled,
-                        soundEnabled = soundEnabled,
-                        autoSync = autoSync,
-                        onToggleDark = onToggleDark,
-                        onToggleNotifications = viewModel::toggleNotifications,
-                        onToggleSound = viewModel::toggleSound,
-                        onToggleAutoSync = viewModel::toggleAutoSync
-                    )
+                           QuickSettingsSection(
+                               darkMode = darkMode,
+                               appTheme = appTheme,
+                               notificationsEnabled = notificationsEnabled,
+                               soundEnabled = soundEnabled,
+                               autoSync = autoSync,
+                               onToggleDark = onToggleDark,
+                               onShowThemeSelector = { showThemeSelector = true },
+                               onToggleNotifications = viewModel::toggleNotifications,
+                               onToggleSound = viewModel::toggleSound,
+                               onToggleAutoSync = viewModel::toggleAutoSync
+                           )
                 }
                 
                 // Detailed Settings Categories
@@ -242,19 +251,30 @@ fun ProfileSettingsScreen(
         }
         
         // Dialogs
-        if (showEditProfile) {
-            EditProfileDialog(
-                userName = profileName,
-                userTitle = profileTitle,
-                userEmail = profileEmail,
-                userBio = profileBio,
-                onDismiss = { showEditProfile = false },
-                onSave = { newName, newTitle, newEmail, newBio ->
-                    viewModel.updateProfile(newName, newTitle, newEmail, newBio)
-                    showEditProfile = false
-                }
-            )
-        }
+               if (showEditProfile) {
+                   EditProfileDialog(
+                       userName = profileName,
+                       userTitle = profileTitle,
+                       userEmail = profileEmail,
+                       userBio = profileBio,
+                       onDismiss = { showEditProfile = false },
+                       onSave = { newName, newTitle, newEmail, newBio ->
+                           viewModel.updateProfile(newName, newTitle, newEmail, newBio)
+                           showEditProfile = false
+                       }
+                   )
+               }
+
+               if (showThemeSelector) {
+                   ThemeSelectorDialog(
+                       currentTheme = appTheme,
+                       onDismiss = { showThemeSelector = false },
+                       onThemeSelected = { theme ->
+                           onThemeChange(theme)
+                           showThemeSelector = false
+                       }
+                   )
+               }
         
         if (showNotificationSettings) {
             NotificationSettingsDialog(
@@ -453,12 +473,12 @@ private fun AcademicStatsSection() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                StatItem(
-                    icon = Icons.Default.Assignment,
-                    label = "Notes",
-                    value = "47",
-                    color = AmanotesColors.Primary
-                )
+                       StatItem(
+                           icon = Icons.AutoMirrored.Filled.Assignment,
+                           label = "Notes",
+                           value = "47",
+                           color = AmanotesColors.Primary
+                       )
                 StatItem(
                     icon = Icons.Default.Folder,
                     label = "Projects",
@@ -510,10 +530,12 @@ private fun StatItem(
 @Composable
 private fun QuickSettingsSection(
     darkMode: Boolean,
+    appTheme: com.example.amanotes.ui.compose.theme.AppTheme,
     notificationsEnabled: Boolean,
     soundEnabled: Boolean,
     autoSync: Boolean,
     onToggleDark: () -> Unit,
+    onShowThemeSelector: () -> Unit,
     onToggleNotifications: () -> Unit,
     onToggleSound: () -> Unit,
     onToggleAutoSync: () -> Unit
@@ -543,14 +565,21 @@ private fun QuickSettingsSection(
                 )
             }
             
-            // Toggle Settings
-            SettingToggleItem(
-                icon = Icons.Default.DarkMode,
-                title = "Dark Academia Mode",
-                subtitle = "Elegant scholarly theme",
-                checked = darkMode,
-                onToggle = onToggleDark
-            )
+                   // Toggle Settings
+                   SettingToggleItem(
+                       icon = Icons.Default.DarkMode,
+                       title = "Dark Mode",
+                       subtitle = "Enable dark interface",
+                       checked = darkMode,
+                       onToggle = onToggleDark
+                   )
+
+                   SettingActionItem(
+                       icon = Icons.Default.Palette,
+                       title = "App Theme",
+                       subtitle = "Current: ${appTheme.displayName}",
+                       onClick = onShowThemeSelector
+                   )
             
             SettingToggleItem(
                 icon = Icons.Default.Notifications,
@@ -560,13 +589,13 @@ private fun QuickSettingsSection(
                 onToggle = onToggleNotifications
             )
             
-            SettingToggleItem(
-                icon = Icons.Default.VolumeUp,
-                title = "Sound Effects",
-                subtitle = "Audio feedback",
-                checked = soundEnabled,
-                onToggle = onToggleSound
-            )
+                   SettingToggleItem(
+                       icon = Icons.AutoMirrored.Filled.VolumeUp,
+                       title = "Sound Effects",
+                       subtitle = "Audio feedback",
+                       checked = soundEnabled,
+                       onToggle = onToggleSound
+                   )
             
             SettingToggleItem(
                 icon = Icons.Default.Sync,
