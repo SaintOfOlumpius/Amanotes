@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.amanotes.BuildConfig
 import com.example.amanotes.data.local.AppDatabase
+import com.example.amanotes.data.local.UserPreferences
 import com.example.amanotes.data.remote.AuthService
 import com.example.amanotes.data.repository.AuthRepository
 import com.example.amanotes.data.repository.TaskRepository
@@ -74,6 +75,10 @@ object ServiceLocator {
     fun provideProjectRepository(context: Context): ProjectRepository {
         val projectDao = provideDatabase(context).projectDao()
         return ProjectRepository(projectDao)
+    }
+    
+    fun provideUserPreferences(context: Context): UserPreferences {
+        return UserPreferences(context)
     }
 }
 

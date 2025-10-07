@@ -86,6 +86,8 @@ dependencies {
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.coroutines.android)
     implementation(libs.coroutines.core)
+    // DataStore
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

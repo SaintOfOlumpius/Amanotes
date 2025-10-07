@@ -67,7 +67,18 @@ fun AppNav(darkMode: Boolean, onToggleDark: () -> Unit) {
             composable("auth") { AuthScreen(onAuthSuccess = { navController.navigate("home") { popUpTo("auth") { inclusive = true } } }) }
             composable("home") { HomeScreen(onOpenProject = { navController.navigate("project") }, onOpenNotes = { navController.navigate("notes") }, onOpenProfile = { navController.navigate("profile") }) }
             composable("project") { ProjectDetailsScreen(onBack = { navController.popBackStack() }) }
-            composable("profile") { ProfileSettingsScreen(darkMode = darkMode, onToggleDark = onToggleDark, onBack = { navController.popBackStack() }) }
+            composable("profile") { 
+                ProfileSettingsScreen(
+                    darkMode = darkMode, 
+                    onToggleDark = onToggleDark, 
+                    onBack = { navController.popBackStack() },
+                    onNavigateToAuth = { 
+                        navController.navigate("auth") { 
+                            popUpTo(0) { inclusive = true } 
+                        } 
+                    }
+                ) 
+            }
             composable("notes") { NotesScreen(onBack = { navController.popBackStack() }) }
         }
     }

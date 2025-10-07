@@ -19,31 +19,88 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.amanotes.di.ServiceLocator
 import com.example.amanotes.ui.compose.components.*
 import com.example.amanotes.ui.compose.theme.AmanotesColors
+import com.example.amanotes.ui.settings.SettingsViewModel
+import com.example.amanotes.ui.settings.*
+import kotlinx.coroutines.launch
 
 @Composable
-fun ProfileSettingsScreen(darkMode: Boolean, onToggleDark: () -> Unit, onBack: () -> Unit) {
+fun ProfileSettingsScreen(
+    darkMode: Boolean,
+    onToggleDark: () -> Unit,
+    onBack: () -> Unit,
+    onNavigateToAuth: () -> Unit = {}
+) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    
+    // Initialize ViewModel
+    val userPreferences = remember { ServiceLocator.provideUserPreferences(context) }
+    val authRepository = remember { ServiceLocator.provideAuthRepository(context) }
+    val viewModel = remember { SettingsViewModel(userPreferences, authRepository) }
+    
+    // Collect states
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val profileName by viewModel.profileName.collectAsStateWithLifecycle(initialValue = "")
+    val profileTitle by viewModel.profileTitle.collectAsStateWithLifecycle(initialValue = "")
+    val profileEmail by viewModel.profileEmail.collectAsStateWithLifecycle(initialValue = "")
+    val profileBio by viewModel.profileBio.collectAsStateWithLifecycle(initialValue = "")
+    
+    // Settings states (read-only from ViewModel)
+    val notificationsEnabled by viewModel.notificationsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val soundEnabled by viewModel.soundEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val vibrationEnabled by viewModel.vibrationEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val autoSync by viewModel.autoSync.collectAsStateWithLifecycle(initialValue = true)
+    val wifiOnlySync by viewModel.wifiOnlySync.collectAsStateWithLifecycle(initialValue = false)
+    val analyticsEnabled by viewModel.analyticsEnabled.collectAsStateWithLifecycle(initialValue = true)
+    val crashReporting by viewModel.crashReporting.collectAsStateWithLifecycle(initialValue = true)
+    val biometricAuth by viewModel.biometricAuth.collectAsStateWithLifecycle(initialValue = false)
+    val autoBackup by viewModel.autoBackup.collectAsStateWithLifecycle(initialValue = true)
+    
+    // Dialog states
+    var showEditProfile by remember { mutableStateOf(false) }
+    var showNotificationSettings by remember { mutableStateOf(false) }
+    var showPrivacySettings by remember { mutableStateOf(false) }
+    var showSecuritySettings by remember { mutableStateOf(false) }
+    var showDataManagement by remember { mutableStateOf(false) }
+    var showAnalytics by remember { mutableStateOf(false) }
+    var showAbout by remember { mutableStateOf(false) }
+    var showSignOutDialog by remember { mutableStateOf(false) }
+    var showDeleteAccountDialog by remember { mutableStateOf(false) }
+    
     val configuration = LocalConfiguration.current
     val isTablet = configuration.screenWidthDp >= 600
     val isLandscape = configuration.screenWidthDp > configuration.screenHeightDp
     
-    // Profile state
-    var showEditProfile by remember { mutableStateOf(false) }
-    var userName by remember { mutableStateOf("Dr. Eleanor Whitmore") }
-    var userTitle by remember { mutableStateOf("Distinguished Scholar") }
-    var userEmail by remember { mutableStateOf("e.whitmore@academy.edu") }
-    var userBio by remember { mutableStateOf("Passionate about literature, philosophy, and the pursuit of knowledge. Currently researching medieval manuscripts and their influence on modern academic thought.") }
+    // Handle navigation
+    LaunchedEffect(uiState.shouldNavigateToAuth) {
+        if (uiState.shouldNavigateToAuth) {
+            onNavigateToAuth()
+            viewModel.onNavigatedToAuth()
+        }
+    }
     
-    // Settings state
-    var notificationsEnabled by remember { mutableStateOf(true) }
-    var soundEnabled by remember { mutableStateOf(true) }
-    var autoSync by remember { mutableStateOf(true) }
-    var showAnalytics by remember { mutableStateOf(false) }
-    var showAbout by remember { mutableStateOf(false) }
+    // Show messages
+    uiState.message?.let { message ->
+        LaunchedEffect(message) {
+            // In a real app, you'd show a snackbar here
+            viewModel.clearMessage()
+        }
+    }
+    
+    uiState.error?.let { error ->
+        LaunchedEffect(error) {
+            // In a real app, you'd show an error snackbar here
+            viewModel.clearMessage()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -86,10 +143,10 @@ fun ProfileSettingsScreen(darkMode: Boolean, onToggleDark: () -> Unit, onBack: (
                     modifier = Modifier.weight(1f)
                 ) {
                     ProfileSection(
-                        userName = userName,
-                        userTitle = userTitle,
-                        userEmail = userEmail,
-                        userBio = userBio,
+                        userName = profileName.ifEmpty { "Scholar" },
+                        userTitle = profileTitle.ifEmpty { "Academy Member" },
+                        userEmail = profileEmail.ifEmpty { "scholar@academy.edu" },
+                        userBio = profileBio.ifEmpty { "Passionate about learning and knowledge discovery." },
                         onEditClick = { showEditProfile = true }
                     )
                     
@@ -102,15 +159,24 @@ fun ProfileSettingsScreen(darkMode: Boolean, onToggleDark: () -> Unit, onBack: (
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    SettingsSection(
+                    QuickSettingsSection(
                         darkMode = darkMode,
                         notificationsEnabled = notificationsEnabled,
                         soundEnabled = soundEnabled,
                         autoSync = autoSync,
                         onToggleDark = onToggleDark,
-                        onToggleNotifications = { notificationsEnabled = !notificationsEnabled },
-                        onToggleSound = { soundEnabled = !soundEnabled },
-                        onToggleAutoSync = { autoSync = !autoSync },
+                        onToggleNotifications = viewModel::toggleNotifications,
+                        onToggleSound = viewModel::toggleSound,
+                        onToggleAutoSync = viewModel::toggleAutoSync
+                    )
+                    
+                    Spacer(modifier = Modifier.height(24.dp))
+                    
+                    SettingsCategoriesSection(
+                        onNotificationSettings = { showNotificationSettings = true },
+                        onPrivacySettings = { showPrivacySettings = true },
+                        onSecuritySettings = { showSecuritySettings = true },
+                        onDataManagement = { showDataManagement = true },
                         onShowAnalytics = { showAnalytics = true },
                         onShowAbout = { showAbout = true }
                     )
@@ -128,10 +194,10 @@ fun ProfileSettingsScreen(darkMode: Boolean, onToggleDark: () -> Unit, onBack: (
             ) {
                 item {
                     ProfileSection(
-                        userName = userName,
-                        userTitle = userTitle,
-                        userEmail = userEmail,
-                        userBio = userBio,
+                        userName = profileName.ifEmpty { "Scholar" },
+                        userTitle = profileTitle.ifEmpty { "Academy Member" },
+                        userEmail = profileEmail.ifEmpty { "scholar@academy.edu" },
+                        userBio = profileBio.ifEmpty { "Passionate about learning and knowledge discovery." },
                         onEditClick = { showEditProfile = true }
                     )
                 }
@@ -140,16 +206,27 @@ fun ProfileSettingsScreen(darkMode: Boolean, onToggleDark: () -> Unit, onBack: (
                     AcademicStatsSection()
                 }
                 
+                // Quick Settings
                 item {
-                    SettingsSection(
+                    QuickSettingsSection(
                         darkMode = darkMode,
                         notificationsEnabled = notificationsEnabled,
                         soundEnabled = soundEnabled,
                         autoSync = autoSync,
                         onToggleDark = onToggleDark,
-                        onToggleNotifications = { notificationsEnabled = !notificationsEnabled },
-                        onToggleSound = { soundEnabled = !soundEnabled },
-                        onToggleAutoSync = { autoSync = !autoSync },
+                        onToggleNotifications = viewModel::toggleNotifications,
+                        onToggleSound = viewModel::toggleSound,
+                        onToggleAutoSync = viewModel::toggleAutoSync
+                    )
+                }
+                
+                // Detailed Settings Categories
+                item {
+                    SettingsCategoriesSection(
+                        onNotificationSettings = { showNotificationSettings = true },
+                        onPrivacySettings = { showPrivacySettings = true },
+                        onSecuritySettings = { showSecuritySettings = true },
+                        onDataManagement = { showDataManagement = true },
                         onShowAnalytics = { showAnalytics = true },
                         onShowAbout = { showAbout = true }
                     )
@@ -157,8 +234,8 @@ fun ProfileSettingsScreen(darkMode: Boolean, onToggleDark: () -> Unit, onBack: (
                 
                 item {
                     ActionsSection(
-                        onSignOut = { /* TODO: Implement sign out */ },
-                        onDeleteAccount = { /* TODO: Implement account deletion */ }
+                        onSignOut = { showSignOutDialog = true },
+                        onDeleteAccount = { showDeleteAccountDialog = true }
                     )
                 }
             }
@@ -167,18 +244,57 @@ fun ProfileSettingsScreen(darkMode: Boolean, onToggleDark: () -> Unit, onBack: (
         // Dialogs
         if (showEditProfile) {
             EditProfileDialog(
-                userName = userName,
-                userTitle = userTitle,
-                userEmail = userEmail,
-                userBio = userBio,
+                userName = profileName,
+                userTitle = profileTitle,
+                userEmail = profileEmail,
+                userBio = profileBio,
                 onDismiss = { showEditProfile = false },
                 onSave = { newName, newTitle, newEmail, newBio ->
-                    userName = newName
-                    userTitle = newTitle
-                    userEmail = newEmail
-                    userBio = newBio
+                    viewModel.updateProfile(newName, newTitle, newEmail, newBio)
                     showEditProfile = false
                 }
+            )
+        }
+        
+        if (showNotificationSettings) {
+            NotificationSettingsDialog(
+                notificationsEnabled = notificationsEnabled,
+                soundEnabled = soundEnabled,
+                vibrationEnabled = vibrationEnabled,
+                onDismiss = { showNotificationSettings = false },
+                onToggleNotifications = viewModel::toggleNotifications,
+                onToggleSound = viewModel::toggleSound,
+                onToggleVibration = viewModel::toggleVibration
+            )
+        }
+        
+        if (showPrivacySettings) {
+            PrivacySettingsDialog(
+                analyticsEnabled = analyticsEnabled,
+                crashReporting = crashReporting,
+                onDismiss = { showPrivacySettings = false },
+                onToggleAnalytics = viewModel::toggleAnalytics,
+                onToggleCrashReporting = viewModel::toggleCrashReporting
+            )
+        }
+        
+        if (showSecuritySettings) {
+            SecuritySettingsDialog(
+                biometricAuth = biometricAuth,
+                onDismiss = { showSecuritySettings = false },
+                onToggleBiometric = viewModel::toggleBiometricAuth
+            )
+        }
+        
+        if (showDataManagement) {
+            DataManagementDialog(
+                autoBackup = autoBackup,
+                wifiOnlySync = wifiOnlySync,
+                onDismiss = { showDataManagement = false },
+                onToggleAutoBackup = viewModel::toggleAutoBackup,
+                onToggleWifiOnly = viewModel::toggleWifiOnlySync,
+                onExportData = viewModel::exportData,
+                onClearCache = viewModel::clearCache
             )
         }
         
@@ -191,6 +307,33 @@ fun ProfileSettingsScreen(darkMode: Boolean, onToggleDark: () -> Unit, onBack: (
         if (showAbout) {
             AboutDialog(
                 onDismiss = { showAbout = false }
+            )
+        }
+        
+        if (showSignOutDialog) {
+            ConfirmationDialog(
+                title = "Sign Out",
+                message = "Are you sure you want to sign out of your account?",
+                confirmText = "Sign Out",
+                onConfirm = {
+                    viewModel.signOut()
+                    showSignOutDialog = false
+                },
+                onDismiss = { showSignOutDialog = false }
+            )
+        }
+        
+        if (showDeleteAccountDialog) {
+            ConfirmationDialog(
+                title = "Delete Account",
+                message = "This action cannot be undone. All your data will be permanently deleted.",
+                confirmText = "Delete Account",
+                isDestructive = true,
+                onConfirm = {
+                    viewModel.deleteAccount()
+                    showDeleteAccountDialog = false
+                },
+                onDismiss = { showDeleteAccountDialog = false }
             )
         }
     }
@@ -365,7 +508,7 @@ private fun StatItem(
 }
 
 @Composable
-private fun SettingsSection(
+private fun QuickSettingsSection(
     darkMode: Boolean,
     notificationsEnabled: Boolean,
     soundEnabled: Boolean,
@@ -373,9 +516,7 @@ private fun SettingsSection(
     onToggleDark: () -> Unit,
     onToggleNotifications: () -> Unit,
     onToggleSound: () -> Unit,
-    onToggleAutoSync: () -> Unit,
-    onShowAnalytics: () -> Unit,
-    onShowAbout: () -> Unit
+    onToggleAutoSync: () -> Unit
 ) {
     PremiumCard(
         modifier = Modifier.fillMaxWidth()
@@ -395,7 +536,7 @@ private fun SettingsSection(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "Academy Settings",
+                    text = "Quick Settings",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.SemiBold,
                     color = AmanotesColors.OnSurface
@@ -413,7 +554,7 @@ private fun SettingsSection(
             
             SettingToggleItem(
                 icon = Icons.Default.Notifications,
-                title = "Scholarly Notifications",
+                title = "Notifications",
                 subtitle = "Study reminders and updates",
                 checked = notificationsEnabled,
                 onToggle = onToggleNotifications
@@ -422,17 +563,83 @@ private fun SettingsSection(
             SettingToggleItem(
                 icon = Icons.Default.VolumeUp,
                 title = "Sound Effects",
-                subtitle = "Academic audio feedback",
+                subtitle = "Audio feedback",
                 checked = soundEnabled,
                 onToggle = onToggleSound
             )
             
             SettingToggleItem(
                 icon = Icons.Default.Sync,
-                title = "Auto Synchronization",
+                title = "Auto Sync",
                 subtitle = "Sync across devices",
                 checked = autoSync,
                 onToggle = onToggleAutoSync
+            )
+        }
+    }
+}
+
+@Composable
+private fun SettingsCategoriesSection(
+    onNotificationSettings: () -> Unit,
+    onPrivacySettings: () -> Unit,
+    onSecuritySettings: () -> Unit,
+    onDataManagement: () -> Unit,
+    onShowAnalytics: () -> Unit,
+    onShowAbout: () -> Unit
+) {
+    PremiumCard(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(bottom = 16.dp)
+            ) {
+                Icon(
+                    Icons.Default.Tune,
+                    contentDescription = null,
+                    tint = AmanotesColors.Accent,
+                    modifier = Modifier.size(24.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = "Advanced Settings",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = AmanotesColors.OnSurface
+                )
+            }
+            
+            // Settings Categories
+            SettingActionItem(
+                icon = Icons.Default.NotificationsActive,
+                title = "Notification Settings",
+                subtitle = "Customize alerts and reminders",
+                onClick = onNotificationSettings
+            )
+            
+            SettingActionItem(
+                icon = Icons.Default.Shield,
+                title = "Privacy & Data",
+                subtitle = "Control your data sharing",
+                onClick = onPrivacySettings
+            )
+            
+            SettingActionItem(
+                icon = Icons.Default.Security,
+                title = "Security",
+                subtitle = "Biometric auth and security",
+                onClick = onSecuritySettings
+            )
+            
+            SettingActionItem(
+                icon = Icons.Default.Storage,
+                title = "Data Management",
+                subtitle = "Backup, sync, and storage",
+                onClick = onDataManagement
             )
             
             HorizontalDivider(
@@ -440,7 +647,6 @@ private fun SettingsSection(
                 color = AmanotesColors.OnSurfaceVariant.copy(alpha = 0.3f)
             )
             
-            // Action Items
             SettingActionItem(
                 icon = Icons.Default.Analytics,
                 title = "Academic Analytics",
