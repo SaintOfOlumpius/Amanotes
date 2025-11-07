@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -57,6 +58,11 @@ dependencies {
     implementation(libs.material)
     // Compose BOM
     implementation(platform(libs.compose.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+    implementation(libs.firebase.firestore)
     androidTestImplementation(platform(libs.compose.bom))
     // Compose core
     implementation(libs.compose.runtime)

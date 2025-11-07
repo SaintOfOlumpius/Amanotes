@@ -1,62 +1,33 @@
 {
   "project_info": {
-    "project_number": "000000000000",
-    "project_id": "amanotes-placeholder",
-    "storage_bucket": "amanotes-placeholder.appspot.com"
+    "project_number": "855926711021",
+    "project_id": "amanotes-7d797",
+    "storage_bucket": "amanotes-7d797.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:000000000000:android:0000000000000000000000",
+        "mobilesdk_app_id": "1:855926711021:android:d6c0e199ed2c3a6a32a2e4",
         "android_client_info": {
           "package_name": "com.example.amanotes"
         }
       },
       "oauth_client": [
         {
-          "client_id": "000000000000-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com",
+          "client_id": "855926711021-l2l0qt8e7esdiof04cn1bn8hjgbm16h7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+          "current_key": "AIzaSyB_Cgc_xSwNkxNkJhOuWT9l93kLnde9HtY"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "000000000000-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:000000000000:android:0000000000000000000001",
-        "android_client_info": {
-          "package_name": "com.example.amanotes.debug"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "000000000000-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "000000000000-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.apps.googleusercontent.com",
+              "client_id": "855926711021-l2l0qt8e7esdiof04cn1bn8hjgbm16h7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
