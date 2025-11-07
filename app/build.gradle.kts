@@ -59,10 +59,14 @@ dependencies {
     // Compose BOM
     implementation(platform(libs.compose.bom))
     implementation(libs.firebase.auth)
+    implementation(libs.firebase.messaging)
+    implementation(libs.firebase.storage)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.firebase.firestore)
+    implementation(libs.google.playservices.auth)
+    implementation(libs.work.runtime.ktx)
     androidTestImplementation(platform(libs.compose.bom))
     // Compose core
     implementation(libs.compose.runtime)

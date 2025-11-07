@@ -1,4 +1,18 @@
 <resources>
     <string name="app_name">Amanotes</string>
     <string name="default_web_client_id">855926711021-l2l0qt8e7esdiof04cn1bn8hjgbm16h7.apps.googleusercontent.com</string>
+    <string name="default_notification_channel_id">amanotes_notifications</string>
+    <string name="select_language">Select Language</string>
+    <string name="close">Close</string>
+    <string name="language_english">English</string>
+    <string name="language_afrikaans">Afrikaans</string>
+    <string name="language_zulu">isiZulu</string>
+    <string name="language_xhosa">isiXhosa</string>
+    <string name="language_sepedi">Sepedi</string>
+    <string name="language_setswana">Setswana</string>
+    <string name="language_sesotho">Sesotho</string>
+    <string name="language_xitsonga">Xitsonga</string>
+    <string name="language_swati">siSwati</string>
+    <string name="language_venda">Tshivenda</string>
+    <string name="language_ndebele">isiNdebele</string>
 </resources>

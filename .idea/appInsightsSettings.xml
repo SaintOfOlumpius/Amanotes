@@ -9,9 +9,9 @@
               <option name="connection">
                 <ConnectionSetting>
                   <option name="appId" value="com.example.amanotes" />
-                  <option name="mobileSdkAppId" value="1:000000000000:android:0000000000000000000000" />
-                  <option name="projectId" value="amanotes-placeholder" />
-                  <option name="projectNumber" value="000000000000" />
+                  <option name="mobileSdkAppId" value="1:855926711021:android:d6c0e199ed2c3a6a32a2e4" />
+                  <option name="projectId" value="amanotes-7d797" />
+                  <option name="projectNumber" value="855926711021" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
@@ -48,7 +49,7 @@ object SyncManager {
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
         
-        val syncWork = androidx.work.OneTimeWorkRequestBuilder<SyncWorker>()
+        val syncWork = OneTimeWorkRequestBuilder<SyncWorker>()
             .setConstraints(constraints)
             .build()
         

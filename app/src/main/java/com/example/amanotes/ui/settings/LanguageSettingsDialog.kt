@@ -40,7 +40,7 @@ fun LanguageSettingsDialog(
                 onLanguageSelected = { language ->
                     currentLanguage = language
                     scope.launch {
-                        viewModel.updateLanguage(language)
+                        viewModel.updateLanguage(language.code)
                     }
                 }
             )
