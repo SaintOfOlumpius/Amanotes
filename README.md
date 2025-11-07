@@ -31,6 +31,10 @@ Architecture: MVVM with LiveData / Flow & ViewModel
 Link to the Youtube Video of the Application part 2 
 https://youtu.be/oUJCpGkXgqI?si=YNp_TP9deJyBSovI
 
+link to the Final part youtube video:
+https://youtu.be/zvNb7OvNBks 
+
+
 
 1. Clone the repository: https://github.com/SaintOfOlumpius/Amanotes/tree/master
   
