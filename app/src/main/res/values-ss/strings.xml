@@ -1,0 +1,72 @@
+<resources>
+    <!-- siSwati Translations -->
+    <!-- Note: These are placeholder translations. Professional translation recommended for production -->
+    <string name="app_name">Amanotes</string>
+    <string name="default_notification_channel_id">amanotes_tetsebiso</string>
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_HERE</string>
+    <string name="sync_worker_name">Umsebenti wekubambisana we-Amanotes</string>
+    <string name="sync_error">Kubambisana akukaphumeleli. Sicela uyeke kabusha.</string>
+    <string name="sync_success">Lwati lubambisene ngempumelelo</string>
+    <string name="offline_mode">Imodi lengenantanelano. Tinyeletelo tiyobambisana lapho kunentanelano.</string>
+    
+    <!-- Authentication -->
+    <string name="welcome_to_amanotes">Wemukelekile\nAmanotes</string>
+    <string name="premium_notes_app">I-app yakho yemanoti asetulu &amp; yemisebenti</string>
+    <string name="login">Ngena</string>
+    <string name="sign_up">Bhalisa</string>
+    <string name="welcome_back">Wemukelekile emuva!</string>
+    <string name="create_account">Dala i-akhawunti yakho</string>
+    <string name="full_name">Libito Lelephelele</string>
+    <string name="email">I-imeyili</string>
+    <string name="password">Iphasiwedi</string>
+    <string name="forgot_password">Uyilibele iphasiwedi?</string>
+    <string name="sign_in_with_google">Ngena nge-Google</string>
+    <string name="or">NOMA</string>
+    <string name="already_have_account">Usenayo i-akhawunti?</string>
+    <string name="dont_have_account">Awunayo i-akhawunti?</string>
+    <string name="sign_in">Ngena</string>
+    <string name="create_account_button">Dala I-akhawunti</string>
+    <string name="logout">Phuma</string>
+    <string name="sign_out">Phuma</string>
+    <string name="sign_out_confirmation">Uyinqinisekile ukuthi ufuna ukuphuma?</string>
+    
+    <!-- Navigation -->
+    <string name="home">Ekhaya</string>
+    <string name="project">Iphrojekthi</string>
+    <string name="notes">Amanoti</string>
+    <string name="profile">Iprofayili</string>
+    
+    <!-- Common strings -->
+    <string name="good_morning">Sawubona</string>
+    <string name="good_afternoon">Sawubona</string>
+    <string name="good_evening">Lala kahle</string>
+    <string name="good_night">Lala kahle</string>
+    <string name="all_tasks_completed">Tonkhe timisebenti tigcwalisiwe! 🎉</string>
+    <string name="tasks_remaining">%1$d timisebenti letisele</string>
+    <string name="pending">Kulinda</string>
+    <string name="done">Kwenziwe</string>
+    <string name="all">Tonkhe</string>
+    <string name="save">Gcina</string>
+    <string name="cancel">Khansela</string>
+    <string name="delete">Susa</string>
+    <string name="edit">Hlela</string>
+    <string name="settings">Tilungiselelo</string>
+    <string name="language">Lulwimi</string>
+    <string name="select_language">Khetsa Lulwimi</string>
+    <string name="language_english">Singisi</string>
+    <string name="language_afrikaans">Sibhunu</string>
+    <string name="language_zulu">Siswati</string>
+    <string name="language_xhosa">Siswati</string>
+    <string name="language_sepedi">Sepedi</string>
+    <string name="language_setswana">Setswana</string>
+    <string name="language_sesotho">Sesotho</string>
+    <string name="language_xitsonga">Xitsonga</string>
+    <string name="language_swati">siSwati</string>
+    <string name="language_venda">Tshivenda</string>
+    <string name="language_ndebele">isiNdebele</string>
+    <string name="ok">OK</string>
+    <string name="yes">Yebo</string>
+    <string name="no">Cha</string>
+    <string name="close">Vala</string>
+</resources>
+

@@ -1,0 +1,72 @@
+<resources>
+    <!-- Sepedi Translations -->
+    <!-- Note: These are placeholder translations. Professional translation recommended for production -->
+    <string name="app_name">Amanotes</string>
+    <string name="default_notification_channel_id">amanotes_ditsebišo</string>
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_HERE</string>
+    <string name="sync_worker_name">Mošomi wa go kopanya wa Amanotes</string>
+    <string name="sync_error">Go kopanya ga se go atlege. Hle leka gape.</string>
+    <string name="sync_success">Tshedimošo e kopantšwe ka katlego</string>
+    <string name="offline_mode">Mokgwa wa go se kgone go amana. Diphetogo di tla kopana ge di amanego.</string>
+    
+    <!-- Authentication -->
+    <string name="welcome_to_amanotes">Amogela\nAmanotes</string>
+    <string name="premium_notes_app">App ya gago ya manoti a maemo a godimo &amp; tiro</string>
+    <string name="login">Tsena</string>
+    <string name="sign_up">Ngwadiša</string>
+    <string name="welcome_back">Amogela gape!</string>
+    <string name="create_account">Hlama akhaonto ya gago</string>
+    <string name="full_name">Leina le Feletšego</string>
+    <string name="email">Imeile</string>
+    <string name="password">Phasewete</string>
+    <string name="forgot_password">Lebitše phasewete?</string>
+    <string name="sign_in_with_google">Tsena ka Google</string>
+    <string name="or">GOBA</string>
+    <string name="already_have_account">O šetše o na le akhaonto?</string>
+    <string name="dont_have_account">Ga o na akhaonto?</string>
+    <string name="sign_in">Tsena</string>
+    <string name="create_account_button">Hlama Akhaonto</string>
+    <string name="logout">Tswa</string>
+    <string name="sign_out">Tswa</string>
+    <string name="sign_out_confirmation">O na le bonnete bja gore o nyaka go tswa?</string>
+    
+    <!-- Navigation -->
+    <string name="home">Gae</string>
+    <string name="project">Projeke</string>
+    <string name="notes">Manoti</string>
+    <string name="profile">Ponagalo</string>
+    
+    <!-- Common strings - add more translations as needed -->
+    <string name="good_morning">Thobela</string>
+    <string name="good_afternoon">Thobela</string>
+    <string name="good_evening">Bošego bjo bobotse</string>
+    <string name="good_night">Bošego bjo bobotse</string>
+    <string name="all_tasks_completed">Mediro yohle e feletše! 🎉</string>
+    <string name="tasks_remaining">%1$d mediro e setšego</string>
+    <string name="pending">E emetše</string>
+    <string name="done">E feletše</string>
+    <string name="all">Tšohle</string>
+    <string name="save">Boloka</string>
+    <string name="cancel">Khansela</string>
+    <string name="delete">Phumola</string>
+    <string name="edit">Fetola</string>
+    <string name="settings">Dikgetho</string>
+    <string name="language">Polelo</string>
+    <string name="select_language">Kgetha Polelo</string>
+    <string name="language_english">Seisimane</string>
+    <string name="language_afrikaans">Seafrikansi</string>
+    <string name="language_zulu">Sesuthu</string>
+    <string name="language_xhosa">Sexhosa</string>
+    <string name="language_sepedi">Sepedi</string>
+    <string name="language_setswana">Setswana</string>
+    <string name="language_sesotho">Sesotho</string>
+    <string name="language_xitsonga">Xitsonga</string>
+    <string name="language_swati">siSwati</string>
+    <string name="language_venda">Tshivenda</string>
+    <string name="language_ndebele">isiNdebele</string>
+    <string name="ok">OK</string>
+    <string name="yes">Ee</string>
+    <string name="no">Aowa</string>
+    <string name="close">Tswala</string>
+</resources>
+

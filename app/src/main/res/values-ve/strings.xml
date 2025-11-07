@@ -1,0 +1,72 @@
+<resources>
+    <!-- Tshivenda Translations -->
+    <!-- Note: These are placeholder translations. Professional translation recommended for production -->
+    <string name="app_name">Amanotes</string>
+    <string name="default_notification_channel_id">amanotes_ndivho</string>
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_HERE</string>
+    <string name="sync_worker_name">Mushumi wa u vhambedzana wa Amanotes</string>
+    <string name="sync_error">U vhambedzana ha hone. Ndi khou humbela u lingedza nga u vhofha.</string>
+    <string name="sync_success">Data yo vhambedzwaho nga maanḓa</string>
+    <string name="offline_mode">Mode ya u sa vhoni. Zwinoḓiswa zwi ḓo vhambedzana musi zwi vhoni.</string>
+    
+    <!-- Authentication -->
+    <string name="welcome_to_amanotes">Takalani\nAmanotes</string>
+    <string name="premium_notes_app">App yau ya manoti a ndeme &amp; mushumo</string>
+    <string name="login">Tsenani</string>
+    <string name="sign_up">Nwalisani</string>
+    <string name="welcome_back">Takalani nga u vhofha!</string>
+    <string name="create_account">Bveledzani akhaunti yau</string>
+    <string name="full_name">Dzina Ḽoṱhe</string>
+    <string name="email">Imeile</string>
+    <string name="password">Phasiwede</string>
+    <string name="forgot_password">Phasiwede i khou livhisa?</string>
+    <string name="sign_in_with_google">Tsenani nga Google</string>
+    <string name="or">KANA</string>
+    <string name="already_have_account">Vho no vha na akhaunti?</string>
+    <string name="dont_have_account">A vho na akhaunti?</string>
+    <string name="sign_in">Tsenani</string>
+    <string name="create_account_button">Bveledzani Akhaunti</string>
+    <string name="logout">Bvani</string>
+    <string name="sign_out">Bvani</string>
+    <string name="sign_out_confirmation">Vho vha na vhukhakhi ha uri vho ṱoḓa u bva?</string>
+    
+    <!-- Navigation -->
+    <string name="home">Hayani</string>
+    <string name="project">Projeke</string>
+    <string name="notes">Manoti</string>
+    <string name="profile">Profaele</string>
+    
+    <!-- Common strings -->
+    <string name="good_morning">Ndi matseloni</string>
+    <string name="good_afternoon">Ndi matseloni</string>
+    <string name="good_evening">Maḓuvha a vhudi</string>
+    <string name="good_night">Maḓuvha a vhudi</string>
+    <string name="all_tasks_completed">Mishumo yothe yo fhedzwa! 🎉</string>
+    <string name="tasks_remaining">%1$d mishumo i sa vha hone</string>
+    <string name="pending">I khou emela</string>
+    <string name="done">Yo fhedzwa</string>
+    <string name="all">Zwoṱhe</string>
+    <string name="save">Pfula</string>
+    <string name="cancel">Khansela</string>
+    <string name="delete">Sula</string>
+    <string name="edit">Kunzea</string>
+    <string name="settings">Zwiko</string>
+    <string name="language">Luambo</string>
+    <string name="select_language">Nanga Luambo</string>
+    <string name="language_english">Luambo lwa Tshingelezi</string>
+    <string name="language_afrikaans">Luambo lwa Tshiafrikansi</string>
+    <string name="language_zulu">Tshizulu</string>
+    <string name="language_xhosa">Tshixhosa</string>
+    <string name="language_sepedi">Sepedi</string>
+    <string name="language_setswana">Setswana</string>
+    <string name="language_sesotho">Sesotho</string>
+    <string name="language_xitsonga">Xitsonga</string>
+    <string name="language_swati">siSwati</string>
+    <string name="language_venda">Tshivenda</string>
+    <string name="language_ndebele">isiNdebele</string>
+    <string name="ok">OK</string>
+    <string name="yes">Ee</string>
+    <string name="no">Aahaa</string>
+    <string name="close">Valani</string>
+</resources>
+

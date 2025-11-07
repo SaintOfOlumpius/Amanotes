@@ -1,0 +1,184 @@
+<resources>
+    <!-- isiZulu Translations -->
+    <string name="app_name">Amanotes</string>
+    <string name="default_notification_channel_id">amanotes_izaziso</string>
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_HERE</string>
+    <string name="sync_worker_name">Umshini Wokuvumelanisa we-Amanotes</string>
+    <string name="sync_error">Ukuvumelanisa kwehlulekile. Ngicela uzame futhi.</string>
+    <string name="sync_success">Idatha ivumelanisiwe ngempumelelo</string>
+    <string name="offline_mode">Imodi engaxhumekile. Izinguquko zizovumelanisa lapho kuxhumekile.</string>
+    
+    <!-- Authentication -->
+    <string name="welcome_to_amanotes">Siyakwamukela\nAmanotes</string>
+    <string name="premium_notes_app">I-app yakho yamanothi ephezulu &amp; yokusebenza</string>
+    <string name="login">Ngena</string>
+    <string name="sign_up">Bhalisa</string>
+    <string name="welcome_back">Siyakwamukela emuva!</string>
+    <string name="create_account">Dala i-akhawunti yakho</string>
+    <string name="full_name">Igama Esele</string>
+    <string name="email">I-imeyili</string>
+    <string name="password">Iphasiwedi</string>
+    <string name="forgot_password">Ukhohlwe iphasiwedi?</string>
+    <string name="sign_in_with_google">Ngena nge-Google</string>
+    <string name="or">NOMA</string>
+    <string name="already_have_account">Sengikade unayo i-akhawunti?</string>
+    <string name="dont_have_account">Awunayo i-akhawunti?</string>
+    <string name="sign_in">Ngena</string>
+    <string name="create_account_button">Dala I-akhawunti</string>
+    <string name="logout">Phuma</string>
+    <string name="sign_out">Phuma</string>
+    <string name="sign_out_confirmation">Uqinisekile ukuthi ufuna ukuphuma?</string>
+    
+    <!-- Navigation -->
+    <string name="home">Ikhaya</string>
+    <string name="project">Iphrojekthi</string>
+    <string name="notes">Amanothi</string>
+    <string name="profile">Iphrofayili</string>
+    
+    <!-- Home Screen -->
+    <string name="good_morning">Sawubona</string>
+    <string name="good_afternoon">Sawubona</string>
+    <string name="good_evening">Lala kahle</string>
+    <string name="good_night">Lala kahle</string>
+    <string name="all_tasks_completed">Konke imisebenzi iphele! 🎉</string>
+    <string name="tasks_remaining">%1$d imisebenzi esele</string>
+    <string name="pending">Kulinde</string>
+    <string name="done">Kwenziwe</string>
+    <string name="all">Konke</string>
+    <string name="today_tasks">Imisebenzi yanamuhla</string>
+    <string name="recent_notes">Amanothi akamuva</string>
+    <string name="active_projects">Amaphrojekthi asebenzayo</string>
+    <string name="view_all">Buka Konke</string>
+    <string name="no_tasks">Awukho amasebenzi okwamanje. Engeza eyodwa ukuze uqale!</string>
+    <string name="no_notes">Awukho amanothi okwamanje. Dala inothi yakho yokuqala!</string>
+    <string name="no_projects">Awukho amaphrojekthi okwamanje. Dala iphrojekthi yakho yokuqala!</string>
+    
+    <!-- Notes Screen -->
+    <string name="notes_title">Amanothi</string>
+    <string name="notes_count">%1$d amanothi</string>
+    <string name="toggle_view">Shintsha umbono</string>
+    <string name="search">Sesha</string>
+    <string name="add_note">Engeza Inothi</string>
+    <string name="note_title">Isihloko</string>
+    <string name="note_content">Okuqukethwe</string>
+    <string name="category">Isigaba</string>
+    <string name="general">Jikelele</string>
+    <string name="favorite">Othandwayo</string>
+    <string name="favorites">Okuthandwayo</string>
+    <string name="save">Gcina</string>
+    <string name="cancel">Khansela</string>
+    <string name="delete">Susa</string>
+    <string name="edit">Hlela</string>
+    <string name="delete_note">Susa Inothi</string>
+    <string name="delete_note_confirmation">Uqinisekile ukuthi ufuna ukususa le nothi?</string>
+    <string name="note_saved">Inothi igcinwe ngempumelelo</string>
+    <string name="note_deleted">Inothi isusiwe</string>
+    <string name="add_to_favorites">Engeza okuthandwayo</string>
+    <string name="remove_from_favorites">Susa kokuthandwayo</string>
+    
+    <!-- Projects Screen -->
+    <string name="projects_title">Amaphrojekthi</string>
+    <string name="projects_count">%1$d amaphrojekthi aphelele</string>
+    <string name="back">Emuva</string>
+    <string name="sort">Hlela</string>
+    <string name="add_project">Engeza Iphrojekthi</string>
+    <string name="project_title">Isihloko sephrojekthi</string>
+    <string name="description">Incazelo</string>
+    <string name="status">Isimo</string>
+    <string name="priority">Okubalulekile</string>
+    <string name="due_date">Usuku olufanele</string>
+    <string name="progress">Intuthuko</string>
+    <string name="delete_project">Susa Iphrojekthi</string>
+    <string name="delete_project_confirmation">Uqinisekile ukuthi ufuna ukususa le phrojekthi?</string>
+    <string name="project_saved">Iphrojekthi igcinwe ngempumelelo</string>
+    <string name="project_deleted">Iphrojekthi isusiwe</string>
+    
+    <!-- Project Status -->
+    <string name="status_planning">Ukuhlela</string>
+    <string name="status_in_progress">Kuyenziwa</string>
+    <string name="status_on_hold">Kubambe</string>
+    <string name="status_completed">Kuphele</string>
+    <string name="status_cancelled">Kukhanseliwe</string>
+    
+    <!-- Project Priority -->
+    <string name="priority_low">Phansi</string>
+    <string name="priority_medium">Phakathi</string>
+    <string name="priority_high">Phezulu</string>
+    <string name="priority_urgent">Kuyadingeka</string>
+    
+    <!-- Profile & Settings -->
+    <string name="settings">Izilungiselelo</string>
+    <string name="edit_profile">Hlela Iphrofayili</string>
+    <string name="theme">Indikimba</string>
+    <string name="dark_mode">Imodi emnyama</string>
+    <string name="notifications">Izaziso</string>
+    <string name="privacy">Ubumfihlo</string>
+    <string name="security">Ukuphepha</string>
+    <string name="data_management">Ukuphathwa kwedatha</string>
+    <string name="about">Mayelana</string>
+    <string name="language">Ulimi</string>
+    <string name="select_language">Khetha Ulimi</string>
+    <string name="language_english">IsiNgisi</string>
+    <string name="language_afrikaans">IsiBhunu</string>
+    <string name="language_zulu">isiZulu</string>
+    <string name="language_xhosa">isiXhosa</string>
+    <string name="language_sepedi">Sepedi</string>
+    <string name="language_setswana">Setswana</string>
+    <string name="language_sesotho">Sesotho</string>
+    <string name="language_xitsonga">Xitsonga</string>
+    <string name="language_swati">siSwati</string>
+    <string name="language_venda">Tshivenda</string>
+    <string name="language_ndebele">isiNdebele</string>
+    
+    <!-- Notification Settings -->
+    <string name="enable_notifications">Nika amandla izaziso</string>
+    <string name="sound">Umsindo</string>
+    <string name="vibration">Ukudlidliza</string>
+    <string name="notification_frequency">Amaphuzu ezaziso</string>
+    
+    <!-- Privacy Settings -->
+    <string name="analytics">Ukuhlaziya</string>
+    <string name="crash_reporting">Ukubika ukuphahleka</string>
+    <string name="personalized_ads">Izikhangiso ezenziwe ngokomuntu</string>
+    
+    <!-- Security Settings -->
+    <string name="biometric_authentication">Ukuqinisekiswa kwe-biometric</string>
+    <string name="auto_lock_timeout">Isikhathi sokukhiya ngokuzenzakalelayo</string>
+    <string name="require_auth_sensitive">Dinga ukuqinisekiswa kwezenzo ezibucayi</string>
+    
+    <!-- Data Management -->
+    <string name="auto_backup">Isibuyekezo ngokuzenzakalelayo</string>
+    <string name="backup_frequency">Amaphuzu esibuyekezo</string>
+    <string name="auto_sync">Ukuvumelanisa ngokuzenzakalelayo</string>
+    <string name="sync_frequency">Amaphuzu okuvumelanisa</string>
+    <string name="wifi_only_sync">Ukuvumelanisa kwe-Wi-Fi kuphela</string>
+    <string name="export_data">Thumela idatha ngaphandle</string>
+    <string name="import_data">Thumela idatha ngaphakathi</string>
+    <string name="clear_cache">Sula i-cache</string>
+    <string name="delete_account">Susa i-akhawunti</string>
+    <string name="delete_account_confirmation">Uqinisekile ukuthi ufuna ukususa i-akhawunti yakho? Lesi senzo asingeke sibuyiswe emuva.</string>
+    
+    <!-- About -->
+    <string name="version">Inguqulo 1.1.0 - Inqubo Yezifundiswa</string>
+    <string name="app_description">Umngane wedijithali obanzi wezifundiswa, abaphenyi, kanye nabafuni ulwazi. Kwenziwe ngobuhle bezifundo ezimnyama ukuze kukhuthaze ukucabanga okujulile nokulandela izifundo.</string>
+    <string name="app_credits">Kwenziwe ngothando lokufunda nokulandela ulwazi.</string>
+    
+    <!-- Common Actions -->
+    <string name="loading">Iyalayisha…</string>
+    <string name="error">Iphutha</string>
+    <string name="success">Impumelelo</string>
+    <string name="ok">KULUNGILE</string>
+    <string name="yes">Yebo</string>
+    <string name="no">Cha</string>
+    <string name="close">Vala</string>
+    <string name="retry">Zama futhi</string>
+    <string name="refresh">Vuselela</string>
+    
+    <!-- Validation Messages -->
+    <string name="error_required">Le ndawo iyadingeka</string>
+    <string name="error_email_invalid">Ngicela ufake ikheli le-imeyili elivumelekile</string>
+    <string name="error_password_short">Iphasiwedi kufanele ibe okungenani abasebenzi abangu-6</string>
+    <string name="error_network">Iphutha lenethwekhi. Ngicela uhlole ukuxhumeka kwakho.</string>
+    <string name="error_unknown">Iphutha elingaziwa lenzekile</string>
+</resources>
+

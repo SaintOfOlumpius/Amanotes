@@ -1,0 +1,184 @@
+<resources>
+    <!-- Afrikaans Translations -->
+    <string name="app_name">Amanotes</string>
+    <string name="default_notification_channel_id">amanotes_kennisgewings</string>
+    <string name="default_web_client_id">YOUR_WEB_CLIENT_ID_HERE</string>
+    <string name="sync_worker_name">Amanotes Sinkronisasie Werker</string>
+    <string name="sync_error">Sinkronisasie het misluk. Probeer asseblief weer.</string>
+    <string name="sync_success">Data suksesvol gesinkroniseer</string>
+    <string name="offline_mode">Afline modus. Veranderinge sal sinkroniseer wanneer aanlyn.</string>
+    
+    <!-- Authentication -->
+    <string name="welcome_to_amanotes">Welkom by\nAmanotes</string>
+    <string name="premium_notes_app">Jou premium notas &amp; produktiwiteitsapp</string>
+    <string name="login">Teken In</string>
+    <string name="sign_up">Registreer</string>
+    <string name="welcome_back">Welkom terug!</string>
+    <string name="create_account">Skep jou rekening</string>
+    <string name="full_name">Volle Naam</string>
+    <string name="email">E-pos</string>
+    <string name="password">Wagwoord</string>
+    <string name="forgot_password">Wagwoord Vergeet?</string>
+    <string name="sign_in_with_google">Teken in met Google</string>
+    <string name="or">OF</string>
+    <string name="already_have_account">Het jy reeds \'n rekening?</string>
+    <string name="dont_have_account">Het jy nie \'n rekening nie?</string>
+    <string name="sign_in">Teken In</string>
+    <string name="create_account_button">Skep Rekening</string>
+    <string name="logout">Teken Uit</string>
+    <string name="sign_out">Teken Uit</string>
+    <string name="sign_out_confirmation">Is jy seker jy wil uitteken?</string>
+    
+    <!-- Navigation -->
+    <string name="home">Tuis</string>
+    <string name="project">Projek</string>
+    <string name="notes">Notas</string>
+    <string name="profile">Profiel</string>
+    
+    <!-- Home Screen -->
+    <string name="good_morning">Goeie Môre</string>
+    <string name="good_afternoon">Goeie Middag</string>
+    <string name="good_evening">Goeie Aand</string>
+    <string name="good_night">Goeie Nag</string>
+    <string name="all_tasks_completed">Alle take voltooi! 🎉</string>
+    <string name="tasks_remaining">%1$d take oor</string>
+    <string name="pending">Hangend</string>
+    <string name="done">Klaar</string>
+    <string name="all">Alle</string>
+    <string name="today_tasks">Vandag se Take</string>
+    <string name="recent_notes">Onlangse Notas</string>
+    <string name="active_projects">Aktiewe Projekte</string>
+    <string name="view_all">Bekyk Alles</string>
+    <string name="no_tasks">Nog geen take nie. Voeg een by om te begin!</string>
+    <string name="no_notes">Nog geen notas nie. Skep jou eerste nota!</string>
+    <string name="no_projects">Nog geen projekte nie. Skep jou eerste projek!</string>
+    
+    <!-- Notes Screen -->
+    <string name="notes_title">Notas</string>
+    <string name="notes_count">%1$d notas</string>
+    <string name="toggle_view">Wissel aansig</string>
+    <string name="search">Soek</string>
+    <string name="add_note">Voeg Nota By</string>
+    <string name="note_title">Titel</string>
+    <string name="note_content">Inhoud</string>
+    <string name="category">Kategorie</string>
+    <string name="general">Algemeen</string>
+    <string name="favorite">Gunsteling</string>
+    <string name="favorites">Gunstelinge</string>
+    <string name="save">Stoor</string>
+    <string name="cancel">Kanselleer</string>
+    <string name="delete">Skrap</string>
+    <string name="edit">Wysig</string>
+    <string name="delete_note">Skrap Nota</string>
+    <string name="delete_note_confirmation">Is jy seker jy wil hierdie nota skrap?</string>
+    <string name="note_saved">Nota suksesvol gestoor</string>
+    <string name="note_deleted">Nota geskrap</string>
+    <string name="add_to_favorites">Voeg by gunstelinge</string>
+    <string name="remove_from_favorites">Verwyder uit gunstelinge</string>
+    
+    <!-- Projects Screen -->
+    <string name="projects_title">Projekte</string>
+    <string name="projects_count">%1$d totaal projekte</string>
+    <string name="back">Terug</string>
+    <string name="sort">Sorteer</string>
+    <string name="add_project">Voeg Projek By</string>
+    <string name="project_title">Projek Titel</string>
+    <string name="description">Beskrywing</string>
+    <string name="status">Status</string>
+    <string name="priority">Prioriteit</string>
+    <string name="due_date">Sperdatum</string>
+    <string name="progress">Vordering</string>
+    <string name="delete_project">Skrap Projek</string>
+    <string name="delete_project_confirmation">Is jy seker jy wil hierdie projek skrap?</string>
+    <string name="project_saved">Projek suksesvol gestoor</string>
+    <string name="project_deleted">Projek geskrap</string>
+    
+    <!-- Project Status -->
+    <string name="status_planning">Beplanning</string>
+    <string name="status_in_progress">In Proses</string>
+    <string name="status_on_hold">Op Hou</string>
+    <string name="status_completed">Voltooi</string>
+    <string name="status_cancelled">Gekanselleer</string>
+    
+    <!-- Project Priority -->
+    <string name="priority_low">Laag</string>
+    <string name="priority_medium">Medium</string>
+    <string name="priority_high">Hoog</string>
+    <string name="priority_urgent">Dringend</string>
+    
+    <!-- Profile & Settings -->
+    <string name="settings">Instellings</string>
+    <string name="edit_profile">Wysig Profiel</string>
+    <string name="theme">Tema</string>
+    <string name="dark_mode">Donker Modus</string>
+    <string name="notifications">Kennisgewings</string>
+    <string name="privacy">Privaatheid</string>
+    <string name="security">Sekuriteit</string>
+    <string name="data_management">Data Bestuur</string>
+    <string name="about">Oor</string>
+    <string name="language">Taal</string>
+    <string name="select_language">Kies Taal</string>
+    <string name="language_english">Engels</string>
+    <string name="language_afrikaans">Afrikaans</string>
+    <string name="language_zulu">isiZulu</string>
+    <string name="language_xhosa">isiXhosa</string>
+    <string name="language_sepedi">Sepedi</string>
+    <string name="language_setswana">Setswana</string>
+    <string name="language_sesotho">Sesotho</string>
+    <string name="language_xitsonga">Xitsonga</string>
+    <string name="language_swati">siSwati</string>
+    <string name="language_venda">Tshivenda</string>
+    <string name="language_ndebele">isiNdebele</string>
+    
+    <!-- Notification Settings -->
+    <string name="enable_notifications">Aktiveer Kennisgewings</string>
+    <string name="sound">Klank</string>
+    <string name="vibration">Vibrasie</string>
+    <string name="notification_frequency">Kennisgewing Frekwensie</string>
+    
+    <!-- Privacy Settings -->
+    <string name="analytics">Ontleding</string>
+    <string name="crash_reporting">Ongeluk Verslaggewing</string>
+    <string name="personalized_ads">Gepersonaliseerde Advertensies</string>
+    
+    <!-- Security Settings -->
+    <string name="biometric_authentication">Biometriese Verifikasie</string>
+    <string name="auto_lock_timeout">Outomatiese Slot Time-out</string>
+    <string name="require_auth_sensitive">Vereis Verifikasie vir Sensitiewe Aksies</string>
+    
+    <!-- Data Management -->
+    <string name="auto_backup">Outomatiese Rugsteun</string>
+    <string name="backup_frequency">Rugsteun Frekwensie</string>
+    <string name="auto_sync">Outomatiese Sinkronisasie</string>
+    <string name="sync_frequency">Sinkronisasie Frekwensie</string>
+    <string name="wifi_only_sync">Net Wi-Fi Sinkronisasie</string>
+    <string name="export_data">Voer Data Uit</string>
+    <string name="import_data">Voer Data In</string>
+    <string name="clear_cache">Maak Kas Skoon</string>
+    <string name="delete_account">Skrap Rekening</string>
+    <string name="delete_account_confirmation">Is jy seker jy wil jou rekening skrap? Hierdie aksie kan nie ongedaan gemaak word nie.</string>
+    
+    <!-- About -->
+    <string name="version">Weergawe 1.1.0 - Geleerde Uitgawe</string>
+    <string name="app_description">\'-n Omvattende digitale metgesel vir geleerdes, navorsers en kennissokers. Ontwerp met donker akademiese estetika om diep denke en geleerde strewe te inspireer.</string>
+    <string name="app_credits">Geskep met passie vir leer en die strewe na kennis.</string>
+    
+    <!-- Common Actions -->
+    <string name="loading">Laai…</string>
+    <string name="error">Fout</string>
+    <string name="success">Sukses</string>
+    <string name="ok">OK</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nee</string>
+    <string name="close">Sluit</string>
+    <string name="retry">Probeer Weer</string>
+    <string name="refresh">Verfris</string>
+    
+    <!-- Validation Messages -->
+    <string name="error_required">Hierdie veld is verpligtend</string>
+    <string name="error_email_invalid">Voer asseblief \'n geldige e-posadres in</string>
+    <string name="error_password_short">Wagwoord moet minstens 6 karakters wees</string>
+    <string name="error_network">Netwerkfout. Kontroleer asseblief jou verbinding.</string>
+    <string name="error_unknown">\'-n Onbekende fout het voorgekom</string>
+</resources>
+
