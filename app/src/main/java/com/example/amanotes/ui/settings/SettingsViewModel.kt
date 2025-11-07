@@ -179,6 +179,11 @@ class SettingsViewModel(
         }
     }
     
+    // Suspend function to update language and wait for completion
+    suspend fun updateLanguageAndWait(language: String) {
+        userPreferences.updateLanguage(language)
+    }
+    
     fun updateFontSize(size: String) {
         viewModelScope.launch {
             userPreferences.updateFontSize(size)

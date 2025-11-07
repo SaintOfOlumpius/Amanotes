@@ -24,7 +24,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.amanotes.R
+import com.example.amanotes.utils.LocaleManager
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -40,9 +45,27 @@ import com.example.amanotes.ui.compose.theme.AmanotesTheme
 import com.example.amanotes.ui.main.MainViewModel
 
 class MainActivity : ComponentActivity() {
+    override fun attachBaseContext(newBase: android.content.Context) {
+        // Apply locale before super.attachBaseContext to ensure it's set correctly
+        // This is called before onCreate, so we need to use runBlocking to read from DataStore
+        val languageCode = LocaleManager.getSavedLanguageCode(newBase)
+        val language = LocaleManager.Language.fromCode(languageCode)
+        val context = LocaleManager.setLocale(newBase, language)
+        super.attachBaseContext(context)
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        
+        // Ensure locale is applied on activity creation as well
+        // This ensures the locale is set for Compose UI
+        val languageCode = LocaleManager.getSavedLanguageCode(this)
+        val language = LocaleManager.Language.fromCode(languageCode)
+        LocaleManager.updateAppLocale(this, language)
+        // Also update the configuration
+        LocaleManager.updateConfiguration(this, language)
+        
         setContent {
             val context = LocalContext.current
             
@@ -59,7 +82,7 @@ class MainActivity : ComponentActivity() {
             AmanotesTheme(appTheme = appTheme, darkTheme = darkMode) {
                 Surface(color = MaterialTheme.colorScheme.background) {
                     when (isAuthenticated) {
-                        null -> LoadingScreen("Checking authentication...")
+                        null -> LoadingScreen(stringResource(R.string.checking_authentication))
                         else -> AppNav(
                             darkMode = darkMode,
                             appTheme = appTheme,
@@ -116,10 +139,10 @@ fun AppNav(
         val current = navController.currentBackStackEntryAsState().value?.destination?.route
         if (current in destinations) {
             NavigationBar {
-                NavigationBarItem(selected = current == "home", onClick = { navController.navigate("home") }, icon = { androidx.compose.material3.Icon(Icons.Default.Home, null) }, label = { Text("Home") })
-                NavigationBarItem(selected = current == "project", onClick = { navController.navigate("project") }, icon = { androidx.compose.material3.Icon(Icons.AutoMirrored.Filled.List, null) }, label = { Text("Project") })
-                NavigationBarItem(selected = current == "notes", onClick = { navController.navigate("notes") }, icon = { androidx.compose.material3.Icon(Icons.Default.Description, null) }, label = { Text("Notes") })
-                NavigationBarItem(selected = current == "profile", onClick = { navController.navigate("profile") }, icon = { androidx.compose.material3.Icon(Icons.Default.Person, null) }, label = { Text("Profile") })
+                NavigationBarItem(selected = current == "home", onClick = { navController.navigate("home") }, icon = { androidx.compose.material3.Icon(Icons.Default.Home, null) }, label = { Text(stringResource(R.string.nav_home)) })
+                NavigationBarItem(selected = current == "project", onClick = { navController.navigate("project") }, icon = { androidx.compose.material3.Icon(Icons.AutoMirrored.Filled.List, null) }, label = { Text(stringResource(R.string.nav_project)) })
+                NavigationBarItem(selected = current == "notes", onClick = { navController.navigate("notes") }, icon = { androidx.compose.material3.Icon(Icons.Default.Description, null) }, label = { Text(stringResource(R.string.nav_notes)) })
+                NavigationBarItem(selected = current == "profile", onClick = { navController.navigate("profile") }, icon = { androidx.compose.material3.Icon(Icons.Default.Person, null) }, label = { Text(stringResource(R.string.nav_profile)) })
             }
         }
     }) { padding ->

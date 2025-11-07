@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -31,6 +32,9 @@ import com.example.amanotes.ui.compose.components.*
 import com.example.amanotes.ui.compose.theme.AmanotesColors
 import com.example.amanotes.ui.settings.SettingsViewModel
 import com.example.amanotes.ui.settings.*
+import com.example.amanotes.ui.settings.LanguageSettingsDialog
+import com.example.amanotes.utils.LocaleManager
+import com.example.amanotes.R
 import kotlinx.coroutines.launch
 
 @Composable
@@ -67,10 +71,12 @@ fun ProfileSettingsScreen(
     val crashReporting by viewModel.crashReporting.collectAsStateWithLifecycle(initialValue = true)
     val biometricAuth by viewModel.biometricAuth.collectAsStateWithLifecycle(initialValue = false)
     val autoBackup by viewModel.autoBackup.collectAsStateWithLifecycle(initialValue = true)
+    val currentLanguageCode by viewModel.language.collectAsStateWithLifecycle(initialValue = "en")
     
     // Dialog states
     var showEditProfile by remember { mutableStateOf(false) }
     var showThemeSelector by remember { mutableStateOf(false) }
+    var showLanguageSettings by remember { mutableStateOf(false) }
     var showNotificationSettings by remember { mutableStateOf(false) }
     var showPrivacySettings by remember { mutableStateOf(false) }
     var showSecuritySettings by remember { mutableStateOf(false) }
@@ -180,6 +186,9 @@ fun ProfileSettingsScreen(
                     Spacer(modifier = Modifier.height(24.dp))
                     
                     SettingsCategoriesSection(
+                        currentLanguageCode = currentLanguageCode,
+                        context = context,
+                        onLanguageSettings = { showLanguageSettings = true },
                         onNotificationSettings = { showNotificationSettings = true },
                         onPrivacySettings = { showPrivacySettings = true },
                         onSecuritySettings = { showSecuritySettings = true },
@@ -232,6 +241,9 @@ fun ProfileSettingsScreen(
                 // Detailed Settings Categories
                 item {
                     SettingsCategoriesSection(
+                        currentLanguageCode = currentLanguageCode,
+                        context = context,
+                        onLanguageSettings = { showLanguageSettings = true },
                         onNotificationSettings = { showNotificationSettings = true },
                         onPrivacySettings = { showPrivacySettings = true },
                         onSecuritySettings = { showSecuritySettings = true },
@@ -275,6 +287,13 @@ fun ProfileSettingsScreen(
                        }
                    )
                }
+        
+        if (showLanguageSettings) {
+            LanguageSettingsDialog(
+                onDismiss = { showLanguageSettings = false },
+                viewModel = viewModel
+            )
+        }
         
         if (showNotificationSettings) {
             NotificationSettingsDialog(
@@ -610,6 +629,9 @@ private fun QuickSettingsSection(
 
 @Composable
 private fun SettingsCategoriesSection(
+    currentLanguageCode: String,
+    context: android.content.Context,
+    onLanguageSettings: () -> Unit,
     onNotificationSettings: () -> Unit,
     onPrivacySettings: () -> Unit,
     onSecuritySettings: () -> Unit,
@@ -643,6 +665,13 @@ private fun SettingsCategoriesSection(
             }
             
             // Settings Categories
+            SettingActionItem(
+                icon = Icons.Default.Translate,
+                title = "Language",
+                subtitle = "Current: ${getLanguageDisplayName(currentLanguageCode, context)}",
+                onClick = onLanguageSettings
+            )
+            
             SettingActionItem(
                 icon = Icons.Default.NotificationsActive,
                 title = "Notification Settings",
@@ -879,7 +908,7 @@ private fun EditProfileDialog(
                 OutlinedTextField(
                     value = editName,
                     onValueChange = { editName = it },
-                    label = { Text("Scholar Name") },
+                    label = { Text(stringResource(R.string.scholar_name)) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AmanotesColors.Primary,
@@ -890,7 +919,7 @@ private fun EditProfileDialog(
                 OutlinedTextField(
                     value = editTitle,
                     onValueChange = { editTitle = it },
-                    label = { Text("Academic Title") },
+                    label = { Text(stringResource(R.string.academic_title)) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AmanotesColors.Primary,
@@ -901,7 +930,7 @@ private fun EditProfileDialog(
                 OutlinedTextField(
                     value = editEmail,
                     onValueChange = { editEmail = it },
-                    label = { Text("Academy Email") },
+                    label = { Text(stringResource(R.string.academy_email)) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AmanotesColors.Primary,
@@ -912,7 +941,7 @@ private fun EditProfileDialog(
                 OutlinedTextField(
                     value = editBio,
                     onValueChange = { editBio = it },
-                    label = { Text("Academic Bio") },
+                    label = { Text(stringResource(R.string.academic_bio)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp),
@@ -1037,4 +1066,23 @@ private fun AboutDialog(
     )
 }
 
+/**
+ * Helper function to get language display name from language code
+ */
+private fun getLanguageDisplayName(languageCode: String, context: android.content.Context): String {
+    val language = LocaleManager.Language.fromCode(languageCode)
+    return when (language) {
+        LocaleManager.Language.ENGLISH -> context.getString(R.string.language_english)
+        LocaleManager.Language.AFRIKAANS -> context.getString(R.string.language_afrikaans)
+        LocaleManager.Language.ZULU -> context.getString(R.string.language_zulu)
+        LocaleManager.Language.XHOSA -> context.getString(R.string.language_xhosa)
+        LocaleManager.Language.SEPEDI -> context.getString(R.string.language_sepedi)
+        LocaleManager.Language.SETSWANA -> context.getString(R.string.language_setswana)
+        LocaleManager.Language.SESOTHO -> context.getString(R.string.language_sesotho)
+        LocaleManager.Language.XITSONGA -> context.getString(R.string.language_xitsonga)
+        LocaleManager.Language.SWATI -> context.getString(R.string.language_swati)
+        LocaleManager.Language.VENDA -> context.getString(R.string.language_venda)
+        LocaleManager.Language.NDEBELE -> context.getString(R.string.language_ndebele)
+    }
+}
 

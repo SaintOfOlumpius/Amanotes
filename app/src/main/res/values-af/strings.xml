@@ -34,6 +34,10 @@
     <string name="project">Projek</string>
     <string name="notes">Notas</string>
     <string name="profile">Profiel</string>
+    <string name="nav_home">Tuis</string>
+    <string name="nav_project">Projek</string>
+    <string name="nav_notes">Notas</string>
+    <string name="nav_profile">Profiel</string>
     
     <!-- Home Screen -->
     <string name="good_morning">Goeie Môre</string>

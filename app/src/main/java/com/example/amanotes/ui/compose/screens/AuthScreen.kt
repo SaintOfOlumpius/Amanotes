@@ -24,7 +24,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.livedata.observeAsState
+import com.example.amanotes.R
 import com.example.amanotes.di.ServiceLocator
 import com.example.amanotes.ui.auth.LoginViewModel
 import com.example.amanotes.ui.auth.SignupViewModel
@@ -312,7 +314,7 @@ private fun LoginCard(
             OutlinedTextField(
                 value = email,
                 onValueChange = onEmailChange,
-                label = { Text("Academy Email") },
+                label = { Text(stringResource(R.string.academy_email)) },
                 leadingIcon = {
                     Icon(Icons.Default.Email, contentDescription = null)
                 },
@@ -331,7 +333,7 @@ private fun LoginCard(
             OutlinedTextField(
                 value = password,
                 onValueChange = onPasswordChange,
-                label = { Text("Secret Phrase") },
+                label = { Text(stringResource(R.string.secret_phrase)) },
                 leadingIcon = {
                     Icon(Icons.Default.Lock, contentDescription = null)
                 },
@@ -440,7 +442,7 @@ private fun SignupCard(
             OutlinedTextField(
                 value = fullName,
                 onValueChange = onFullNameChange,
-                label = { Text("Scholar Name") },
+                label = { Text(stringResource(R.string.scholar_name)) },
                 leadingIcon = {
                     Icon(Icons.Default.Person, contentDescription = null)
                 },
@@ -459,7 +461,7 @@ private fun SignupCard(
             OutlinedTextField(
                 value = email,
                 onValueChange = onEmailChange,
-                label = { Text("Academy Email") },
+                label = { Text(stringResource(R.string.academy_email)) },
                 leadingIcon = {
                     Icon(Icons.Default.Email, contentDescription = null)
                 },
@@ -478,7 +480,7 @@ private fun SignupCard(
             OutlinedTextField(
                 value = password,
                 onValueChange = onPasswordChange,
-                label = { Text("Secret Phrase") },
+                label = { Text(stringResource(R.string.secret_phrase)) },
                 leadingIcon = {
                     Icon(Icons.Default.Lock, contentDescription = null)
                 },
@@ -510,7 +512,7 @@ private fun SignupCard(
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = onConfirmPasswordChange,
-                label = { Text("Confirm Phrase") },
+                label = { Text(stringResource(R.string.confirm_phrase)) },
                 leadingIcon = {
                     Icon(Icons.Default.LockOpen, contentDescription = null)
                 },

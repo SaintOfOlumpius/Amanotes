@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.res.stringResource
+import com.example.amanotes.R
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
@@ -418,7 +420,7 @@ fun ThemeSelectorDialog(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Default.Palette, contentDescription = null, tint = AmanotesColors.Primary, modifier = Modifier.size(24.dp))
                 Spacer(modifier = Modifier.width(8.dp))
-                Text("Choose Your Theme", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, color = AmanotesColors.OnSurface)
+                Text(stringResource(R.string.choose_theme), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.SemiBold, color = AmanotesColors.OnSurface)
             }
         },
         text = {

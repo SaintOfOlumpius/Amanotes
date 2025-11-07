@@ -15,4 +15,141 @@
     <string name="language_swati">siSwati</string>
     <string name="language_venda">Tshivenda</string>
     <string name="language_ndebele">isiNdebele</string>
+    
+    <!-- Navigation -->
+    <string name="home">Home</string>
+    <string name="project">Project</string>
+    <string name="notes">Notes</string>
+    <string name="profile">Profile</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_project">Project</string>
+    <string name="nav_notes">Notes</string>
+    <string name="nav_profile">Profile</string>
+    
+    <!-- Home Screen -->
+    <string name="welcome_back">Welcome back, %1$s!</string>
+    <string name="welcome_scholar">Welcome back, Scholar!</string>
+    <string name="good_morning">Good morning!</string>
+    <string name="good_afternoon">Good afternoon!</string>
+    <string name="good_evening">Good evening!</string>
+    <string name="all_tasks_completed">All tasks completed! 🎉</string>
+    <string name="tasks_remaining">%1$d tasks remaining</string>
+    <string name="completed">Completed</string>
+    <string name="pending">Pending</string>
+    <string name="progress">Progress</string>
+    <string name="tasks_today">tasks today</string>
+    <string name="remaining">remaining</string>
+    <string name="completion">completion</string>
+    <string name="recent_notes">Recent Notes</string>
+    <string name="active_projects">Active Projects</string>
+    <string name="view_all">View All</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="new_note">New Note</string>
+    <string name="projects">Projects</string>
+    <string name="settings">Settings</string>
+    <string name="analytics">Analytics</string>
+    <string name="todays_tasks">Today\'s Tasks</string>
+    <string name="all_tasks">All Tasks</string>
+    <string name="no_tasks_yet">No tasks yet</string>
+    <string name="no_pending_tasks">No pending tasks</string>
+    <string name="no_completed_tasks">No completed tasks yet</string>
+    <string name="complete_some_tasks">Complete some tasks to see them here</string>
+    <string name="all_tasks_completed_msg">Great! All tasks are completed</string>
+    <string name="create_first_task">Tap the + button to create your first task</string>
+    <string name="add_new_task">Add New Task</string>
+    <string name="task_title">Task title</string>
+    <string name="add_task">Add Task</string>
+    <string name="cancel">Cancel</string>
+    <string name="percent_complete">%1$d%% complete</string>
+    <string name="checking_authentication">Checking authentication…</string>
+    
+    <!-- Notes Screen -->
+    <string name="notes_title">Notes</string>
+    <string name="notes_count">%1$d notes</string>
+    <string name="toggle_view">Toggle view</string>
+    <string name="search">Search</string>
+    <string name="search_notes">Search notes…</string>
+    <string name="add_note">Add Note</string>
+    <string name="note_title">Note Title</string>
+    <string name="note_content">Note Content</string>
+    <string name="category">Category</string>
+    <string name="general">General</string>
+    <string name="favorite">Favorite</string>
+    <string name="favorites">Favorites</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="delete_note">Delete Note</string>
+    <string name="delete_note_confirmation">Are you sure you want to delete this note?</string>
+    <string name="note_saved">Note saved successfully</string>
+    <string name="note_deleted">Note deleted</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="all">All</string>
+    
+    <!-- Projects Screen -->
+    <string name="projects_title">Projects</string>
+    <string name="projects_count">%1$d total projects</string>
+    <string name="back">Back</string>
+    <string name="sort">Sort</string>
+    <string name="add_project">Add Project</string>
+    <string name="project_title">Project title</string>
+    <string name="description">Description</string>
+    <string name="description_optional">Description (optional)</string>
+    <string name="status">Status</string>
+    <string name="priority">Priority</string>
+    <string name="due_date">Due date</string>
+    <string name="progress_text">Progress: %1$d%%</string>
+    <string name="edit_project">Edit Project</string>
+    <string name="delete_project">Delete Project</string>
+    <string name="delete_project_confirmation">Are you sure you want to delete this project?</string>
+    <string name="project_saved">Project saved successfully</string>
+    <string name="project_deleted">Project deleted</string>
+    <string name="due">Due %1$s</string>
+    <string name="due_date_format">Due: %1$s</string>
+    <string name="created">Created %1$s</string>
+    
+    <!-- Project Status -->
+    <string name="status_planning">Planning</string>
+    <string name="status_in_progress">In Progress</string>
+    <string name="status_on_hold">On Hold</string>
+    <string name="status_completed">Completed</string>
+    <string name="status_cancelled">Cancelled</string>
+    
+    <!-- Project Priority -->
+    <string name="priority_low">Low</string>
+    <string name="priority_medium">Medium</string>
+    <string name="priority_high">High</string>
+    <string name="priority_urgent">Urgent</string>
+    
+    <!-- Auth Screen -->
+    <string name="full_name">Full Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="academy_email">Academy Email</string>
+    <string name="secret_phrase">Secret Phrase</string>
+    <string name="confirm_phrase">Confirm Phrase</string>
+    <string name="scholar_name">Scholar Name</string>
+    <string name="academic_title">Academic Title</string>
+    <string name="academic_bio">Academic Bio</string>
+    
+    <!-- Profile Settings -->
+    <string name="edit_profile">Edit Profile</string>
+    <string name="theme">Theme</string>
+    <string name="dark_mode">Dark Mode</string>
+    <string name="notifications">Notifications</string>
+    <string name="privacy">Privacy</string>
+    <string name="security">Security</string>
+    <string name="data_management">Data Management</string>
+    <string name="about">About</string>
+    <string name="language">Language</string>
+    <string name="choose_theme">Choose Your Theme</string>
+    
+    <!-- Common -->
+    <string name="notifications_label">Notifications</string>
+    <string name="toggle_view_description">Toggle view</string>
+    <string name="search_description">Search</string>
+    <string name="sort_description">Sort</string>
+    <string name="back_description">Back</string>
 </resources>

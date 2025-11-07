@@ -21,7 +21,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.amanotes.R
 import com.example.amanotes.data.local.NoteEntity
 import com.example.amanotes.data.repository.NoteRepository
 import com.example.amanotes.di.ServiceLocator
@@ -67,20 +69,20 @@ fun NotesScreen(onBack: () -> Unit) {
             TopAppBar(
                 title = { 
                     Column {
-                        Text("Notes", style = MaterialTheme.typography.titleLarge)
-                        Text("${allNotes.size} notes", style = MaterialTheme.typography.bodyMedium, color = AmanotesColors.OnSurfaceVariant)
+                        Text(stringResource(R.string.notes_title), style = MaterialTheme.typography.titleLarge)
+                        Text(stringResource(R.string.notes_count, allNotes.size), style = MaterialTheme.typography.bodyMedium, color = AmanotesColors.OnSurfaceVariant)
                     }
                 },
                 actions = {
                     IconButton(onClick = { isGridView = !isGridView }) {
                         Icon(
                             imageVector = if (isGridView) Icons.Default.ViewList else Icons.Default.GridView,
-                            contentDescription = "Toggle view",
+                            contentDescription = stringResource(R.string.toggle_view_description),
                             tint = AmanotesColors.Primary
                         )
                     }
                     IconButton(onClick = { /* Search functionality */ }) {
-                        Icon(Icons.Default.Search, contentDescription = "Search", tint = AmanotesColors.Primary)
+                        Icon(Icons.Default.Search, contentDescription = stringResource(R.string.search_description), tint = AmanotesColors.Primary)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = AmanotesColors.Surface)
@@ -107,7 +109,7 @@ fun NotesScreen(onBack: () -> Unit) {
                     value = searchQuery,
                     onValueChange = { searchQuery = it },
                     modifier = Modifier.fillMaxWidth(),
-                    placeholder = { Text("Search notes...") },
+                    placeholder = { Text(stringResource(R.string.search_notes)) },
                     leadingIcon = { Icon(Icons.Default.Search, contentDescription = null, tint = AmanotesColors.Primary) },
                     trailingIcon = {
                         if (searchQuery.isNotEmpty()) {
@@ -496,7 +498,7 @@ private fun AddNoteDialog(
                 OutlinedTextField(
                     value = title,
                     onValueChange = { title = it },
-                    label = { Text("Note Title") },
+                    label = { Text(stringResource(R.string.note_title)) },
                     modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = AmanotesColors.Primary,
@@ -507,7 +509,7 @@ private fun AddNoteDialog(
                 OutlinedTextField(
                     value = content,
                     onValueChange = { content = it },
-                    label = { Text("Note Content") },
+                    label = { Text(stringResource(R.string.note_content)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp),
@@ -526,7 +528,7 @@ private fun AddNoteDialog(
                         value = selectedCategory,
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Category") },
+                        label = { Text(stringResource(R.string.category)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showCategoryDropdown) },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -636,7 +638,7 @@ private fun NoteDetailDialog(
                     OutlinedTextField(
                         value = editTitle,
                         onValueChange = { editTitle = it },
-                        label = { Text("Note Title") },
+                        label = { Text(stringResource(R.string.note_title)) },
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = AmanotesColors.Primary,
@@ -647,7 +649,7 @@ private fun NoteDetailDialog(
                     OutlinedTextField(
                         value = editContent,
                         onValueChange = { editContent = it },
-                        label = { Text("Note Content") },
+                        label = { Text(stringResource(R.string.note_content)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(150.dp),
@@ -666,7 +668,7 @@ private fun NoteDetailDialog(
                             value = editCategory,
                             onValueChange = {},
                             readOnly = true,
-                            label = { Text("Category") },
+                            label = { Text(stringResource(R.string.category)) },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showCategoryDropdown) },
                             modifier = Modifier
                                 .fillMaxWidth()

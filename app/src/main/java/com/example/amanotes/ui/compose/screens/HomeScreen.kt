@@ -17,8 +17,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.amanotes.R
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.amanotes.data.local.TaskEntity
 import com.example.amanotes.data.repository.TaskRepository
@@ -69,17 +71,31 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
     val activeProjects = allProjects.filter { it.status == com.example.amanotes.data.local.ProjectStatus.IN_PROGRESS }
     val completedProjects = allProjects.count { it.status == com.example.amanotes.data.local.ProjectStatus.COMPLETED }
     
-    // Get current time info
-    val currentDate = remember { SimpleDateFormat("EEEE, MMM dd", Locale.getDefault()).format(Date()) }
-    val currentTime = remember { SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date()) }
+    // Get current time info - use context to get proper locale
+    val currentLocale = remember { 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            context.resources.configuration.locales[0]
+        } else {
+            @Suppress("DEPRECATION")
+            context.resources.configuration.locale
+        }
+    }
+    val currentDate = remember(currentLocale) { 
+        SimpleDateFormat("EEEE, MMM dd", currentLocale).format(Date()) 
+    }
+    val currentTime = remember(currentLocale) { 
+        SimpleDateFormat("HH:mm", currentLocale).format(Date()) 
+    }
 
     // Quick actions
-    val quickActions = listOf(
-        QuickAction("New Note", Icons.Default.Create, onOpenNotes),
-        QuickAction("Projects", Icons.Default.Folder, onOpenProject),
-        QuickAction("Settings", Icons.Default.Settings, onOpenProfile),
-        QuickAction("Analytics", Icons.Default.Analytics) { /* TODO */ }
-    )
+    val quickActions = remember {
+        listOf(
+            QuickAction(context.getString(R.string.new_note), Icons.Default.Create, onOpenNotes),
+            QuickAction(context.getString(R.string.projects), Icons.Default.Folder, onOpenProject),
+            QuickAction(context.getString(R.string.settings), Icons.Default.Settings, onOpenProfile),
+            QuickAction(context.getString(R.string.analytics), Icons.Default.Analytics) { /* TODO */ }
+        )
+    }
 
     Scaffold(
         topBar = {
@@ -87,7 +103,9 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                 title = { 
                     Column {
                         Text(
-                            text = "Welcome back, ${currentUser?.name?.split(" ")?.firstOrNull() ?: "Scholar"}!", 
+                            text = currentUser?.name?.let { name ->
+                                stringResource(R.string.welcome_back, name.split(" ").firstOrNull() ?: "Scholar")
+                            } ?: stringResource(R.string.welcome_scholar), 
                             style = MaterialTheme.typography.titleLarge,
                             color = AmanotesColors.OnSurface
                         )
@@ -134,15 +152,18 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = "Good ${getGreeting()}!",
+                                text = getGreeting(),
                                 style = MaterialTheme.typography.headlineMedium,
                                 color = AmanotesColors.OnPrimary,
                                 fontWeight = FontWeight.Bold
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = if (todayTasks.isEmpty()) "All tasks completed! 🎉" 
-                                      else "${todayTasks.size} tasks remaining",
+                                text = if (todayTasks.isEmpty()) {
+                                    stringResource(R.string.all_tasks_completed)
+                                } else {
+                                    stringResource(R.string.tasks_remaining, todayTasks.size)
+                                },
                                 style = MaterialTheme.typography.bodyLarge,
                                 color = AmanotesColors.OnPrimary.copy(alpha = 0.9f)
                             )
@@ -169,23 +190,23 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     MetricCard(
-                        title = "Completed",
+                        title = stringResource(R.string.completed),
                         value = completedCount.toString(),
-                        subtitle = "tasks today",
+                        subtitle = stringResource(R.string.tasks_today),
                         icon = Icons.Default.CheckCircle,
                         modifier = Modifier.weight(1f)
                     )
                     MetricCard(
-                        title = "Pending",
+                        title = stringResource(R.string.pending),
                         value = todayTasks.size.toString(),
-                        subtitle = "remaining",
+                        subtitle = stringResource(R.string.remaining),
                         icon = Icons.Default.Schedule,
                         modifier = Modifier.weight(1f)
                     )
                     MetricCard(
-                        title = "Progress",
+                        title = stringResource(R.string.progress),
                         value = "${(progress * 100).toInt()}%",
-                        subtitle = "completion",
+                        subtitle = stringResource(R.string.completion),
                         icon = Icons.Default.TrendingUp,
                         trend = if (progress > 0.5f) TrendDirection.Up else TrendDirection.Neutral,
                         modifier = Modifier.weight(1f)
@@ -204,13 +225,13 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "Recent Notes",
+                                    text = stringResource(R.string.recent_notes),
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.SemiBold,
                                     color = AmanotesColors.OnSurface
                                 )
                                 PremiumButton(
-                                    text = "View All",
+                                    text = stringResource(R.string.view_all),
                                     onClick = onOpenNotes,
                                     variant = ButtonVariant.Outlined
                                 )
@@ -264,13 +285,13 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
-                                    text = "Active Projects",
+                                    text = stringResource(R.string.active_projects),
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.SemiBold,
                                     color = AmanotesColors.OnSurface
                                 )
                                 PremiumButton(
-                                    text = "View All",
+                                    text = stringResource(R.string.view_all),
                                     onClick = onOpenProject,
                                     variant = ButtonVariant.Outlined
                                 )
@@ -301,7 +322,7 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                                             maxLines = 1
                                         )
                                         Text(
-                                            text = "${(project.progress * 100).toInt()}% complete",
+                                            text = stringResource(R.string.percent_complete, (project.progress * 100).toInt()),
                                             style = MaterialTheme.typography.bodySmall,
                                             color = AmanotesColors.OnSurfaceVariant
                                         )
@@ -326,7 +347,7 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                 PremiumCard(modifier = Modifier.fillMaxWidth()) {
                     Column(modifier = Modifier.padding(20.dp)) {
                         Text(
-                            text = "Quick Actions",
+                            text = stringResource(R.string.quick_actions),
                             style = MaterialTheme.typography.titleMedium,
                             color = AmanotesColors.OnSurface,
                             fontWeight = FontWeight.SemiBold
@@ -352,7 +373,7 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                     FilterChip(
                         selected = filter == "All",
                         onClick = { filter = "All" },
-                        label = { Text("All (${allTasks.size})") },
+                        label = { Text("${stringResource(R.string.all_tasks)} (${allTasks.size})") },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = AmanotesColors.Primary,
                             selectedLabelColor = AmanotesColors.OnPrimary
@@ -361,7 +382,7 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                     FilterChip(
                         selected = filter == "Pending",
                         onClick = { filter = "Pending" },
-                        label = { Text("Pending (${todayTasks.size})") },
+                        label = { Text("${stringResource(R.string.pending)} (${todayTasks.size})") },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = AmanotesColors.Warning,
                             selectedLabelColor = AmanotesColors.OnPrimary
@@ -370,7 +391,7 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                     FilterChip(
                         selected = filter == "Done",
                         onClick = { filter = "Done" },
-                        label = { Text("Done ($completedCount)") },
+                        label = { Text("${stringResource(R.string.completed)} ($completedCount)") },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = AmanotesColors.Success,
                             selectedLabelColor = AmanotesColors.OnPrimary
@@ -397,7 +418,7 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                                 )
                                 Spacer(modifier = Modifier.width(8.dp))
                                 Text(
-                                    text = "Today's Tasks",
+                                    text = stringResource(R.string.todays_tasks),
                                     style = MaterialTheme.typography.titleMedium,
                                     fontWeight = FontWeight.SemiBold,
                                     color = AmanotesColors.OnSurface
@@ -405,9 +426,9 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                             }
                             StatusChip(
                                 text = when (filter) {
-                                    "Pending" -> "Pending"
-                                    "Done" -> "Completed"
-                                    else -> "All Tasks"
+                                    "Pending" -> stringResource(R.string.pending)
+                                    "Done" -> stringResource(R.string.completed)
+                                    else -> stringResource(R.string.all_tasks)
                                 },
                                 status = when (filter) {
                                     "Pending" -> ChipStatus.Warning
@@ -450,7 +471,7 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                 onDismissRequest = { showAddDialog = false },
                 confirmButton = {
                     PremiumButton(
-                        text = "Add Task",
+                        text = stringResource(R.string.add_task),
                         onClick = {
                             val title = newTaskTitle.trim()
                             if (title.isNotEmpty()) {
@@ -467,14 +488,14 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                 },
                 dismissButton = { 
                     PremiumButton(
-                        text = "Cancel",
+                        text = stringResource(R.string.cancel),
                         onClick = { showAddDialog = false },
                         variant = ButtonVariant.Outlined
                     )
                 },
                 title = { 
                     Text(
-                        "Add New Task",
+                        stringResource(R.string.add_new_task),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.SemiBold,
                         color = AmanotesColors.OnSurface
@@ -484,7 +505,7 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
                     OutlinedTextField(
                         value = newTaskTitle,
                         onValueChange = { newTaskTitle = it },
-                        label = { Text("Task title") },
+                        label = { Text(stringResource(R.string.task_title)) },
                         singleLine = true,
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedBorderColor = AmanotesColors.Primary,
@@ -500,12 +521,13 @@ fun HomeScreen(onOpenProject: () -> Unit, onOpenNotes: () -> Unit, onOpenProfile
 }
 
 // Helper functions and data classes
+@Composable
 private fun getGreeting(): String {
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     return when (hour) {
-        in 0..11 -> "morning"
-        in 12..17 -> "afternoon"
-        else -> "evening"
+        in 0..11 -> stringResource(R.string.good_morning)
+        in 12..17 -> stringResource(R.string.good_afternoon)
+        else -> stringResource(R.string.good_evening)
     }
 }
 
@@ -563,9 +585,9 @@ private fun EmptyTasksState(filter: String) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             text = when (filter) {
-                "Done" -> "No completed tasks yet"
-                "Pending" -> "No pending tasks"
-                else -> "No tasks yet"
+                "Done" -> stringResource(R.string.no_completed_tasks)
+                "Pending" -> stringResource(R.string.no_pending_tasks)
+                else -> stringResource(R.string.no_tasks_yet)
             },
             style = MaterialTheme.typography.titleMedium,
             color = AmanotesColors.OnSurfaceVariant,
@@ -574,9 +596,9 @@ private fun EmptyTasksState(filter: String) {
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = when (filter) {
-                "Done" -> "Complete some tasks to see them here"
-                "Pending" -> "Great! All tasks are completed"
-                else -> "Tap the + button to create your first task"
+                "Done" -> stringResource(R.string.complete_some_tasks)
+                "Pending" -> stringResource(R.string.all_tasks_completed_msg)
+                else -> stringResource(R.string.create_first_task)
             },
             style = MaterialTheme.typography.bodyMedium,
             color = AmanotesColors.OnSurfaceVariant.copy(alpha = 0.7f)

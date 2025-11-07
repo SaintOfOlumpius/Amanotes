@@ -16,7 +16,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.amanotes.R
 import com.example.amanotes.data.local.ProjectEntity
 import com.example.amanotes.data.local.ProjectStatus
 import com.example.amanotes.data.local.ProjectPriority
@@ -67,18 +69,18 @@ fun ProjectDetailsScreen(onBack: () -> Unit) {
             TopAppBar(
                 title = { 
                     Column {
-                        Text("Projects", style = MaterialTheme.typography.titleLarge)
-                        Text("${allProjects.size} total projects", style = MaterialTheme.typography.bodyMedium, color = AmanotesColors.OnSurfaceVariant)
+                        Text(stringResource(R.string.projects_title), style = MaterialTheme.typography.titleLarge)
+                        Text(stringResource(R.string.projects_count, allProjects.size), style = MaterialTheme.typography.bodyMedium, color = AmanotesColors.OnSurfaceVariant)
                     }
                 },
                 navigationIcon = { 
                     IconButton(onClick = onBack) { 
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = AmanotesColors.Primary) 
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back_description), tint = AmanotesColors.Primary) 
                     } 
                 },
                 actions = {
                     IconButton(onClick = { /* Sort functionality */ }) {
-                        Icon(Icons.Default.Sort, contentDescription = "Sort", tint = AmanotesColors.Primary)
+                        Icon(Icons.Default.Sort, contentDescription = stringResource(R.string.sort_description), tint = AmanotesColors.Primary)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = AmanotesColors.Surface)
@@ -339,7 +341,7 @@ private fun ProjectCard(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = "Progress",
+                        text = stringResource(R.string.progress),
                         style = MaterialTheme.typography.bodySmall,
                         color = AmanotesColors.OnSurfaceVariant
                     )
@@ -387,8 +389,16 @@ private fun ProjectCard(
                 }
                 
                 project.dueDate?.let { dueDate ->
+                    val cardContext = LocalContext.current
+                    val currentLocale = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        cardContext.resources.configuration.locales[0]
+                    } else {
+                        @Suppress("DEPRECATION")
+                        cardContext.resources.configuration.locale
+                    }
+                    val formattedDate = SimpleDateFormat("MMM dd", currentLocale).format(Date(dueDate))
                     Text(
-                        text = "Due ${SimpleDateFormat("MMM dd", Locale.getDefault()).format(Date(dueDate))}",
+                        text = stringResource(R.string.due, formattedDate),
                         style = MaterialTheme.typography.bodySmall,
                         color = if (dueDate < System.currentTimeMillis()) AmanotesColors.Error else AmanotesColors.OnSurfaceVariant
                     )
@@ -455,7 +465,7 @@ private fun AddProjectDialog(
         },
         dismissButton = {
             PremiumButton(
-                text = "Cancel",
+                text = stringResource(R.string.cancel),
                 onClick = onDismiss,
                 variant = ButtonVariant.Outlined
             )
@@ -473,7 +483,7 @@ private fun AddProjectDialog(
                 OutlinedTextField(
                     value = title,
                     onValueChange = onTitleChange,
-                    label = { Text("Project title") },
+                    label = { Text(stringResource(R.string.project_title)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                     colors = OutlinedTextFieldDefaults.colors(
@@ -485,7 +495,7 @@ private fun AddProjectDialog(
                 OutlinedTextField(
                     value = description,
                     onValueChange = onDescriptionChange,
-                    label = { Text("Description (optional)") },
+                    label = { Text(stringResource(R.string.description_optional)) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(100.dp),
@@ -505,7 +515,7 @@ private fun AddProjectDialog(
                         value = status.displayName,
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Status") },
+                        label = { Text(stringResource(R.string.status)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showStatusDropdown) },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -541,7 +551,7 @@ private fun AddProjectDialog(
                         value = priority.displayName,
                         onValueChange = {},
                         readOnly = true,
-                        label = { Text("Priority") },
+                        label = { Text(stringResource(R.string.priority)) },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showPriorityDropdown) },
                         modifier = Modifier
                             .fillMaxWidth()
@@ -610,17 +620,17 @@ private fun ProjectDetailDialog(
                         }
                     )
                     PremiumButton(
-                        text = "Cancel",
+                        text = stringResource(R.string.cancel),
                         onClick = { isEditing = false },
                         variant = ButtonVariant.Outlined
                     )
                 } else {
                     PremiumButton(
-                        text = "Edit",
+                        text = stringResource(R.string.edit),
                         onClick = { isEditing = true }
                     )
                     PremiumButton(
-                        text = "Delete",
+                        text = stringResource(R.string.delete),
                         onClick = { onDelete(project) },
                         variant = ButtonVariant.Outlined
                     )
@@ -629,7 +639,7 @@ private fun ProjectDetailDialog(
         },
         title = {
             Text(
-                if (isEditing) "Edit Project" else project.title,
+                if (isEditing) stringResource(R.string.edit_project) else project.title,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.SemiBold,
                 color = AmanotesColors.OnSurface
@@ -641,7 +651,7 @@ private fun ProjectDetailDialog(
                     OutlinedTextField(
                         value = editTitle,
                         onValueChange = { editTitle = it },
-                        label = { Text("Project title") },
+                        label = { Text(stringResource(R.string.project_title)) },
                         singleLine = true,
                         modifier = Modifier.fillMaxWidth(),
                         colors = OutlinedTextFieldDefaults.colors(
@@ -653,7 +663,7 @@ private fun ProjectDetailDialog(
                     OutlinedTextField(
                         value = editDescription,
                         onValueChange = { editDescription = it },
-                        label = { Text("Description") },
+                        label = { Text(stringResource(R.string.description)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(100.dp),
@@ -674,7 +684,7 @@ private fun ProjectDetailDialog(
                             value = editStatus.displayName,
                             onValueChange = {},
                             readOnly = true,
-                            label = { Text("Status") },
+                            label = { Text(stringResource(R.string.status)) },
                             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = showStatusDropdown) },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -704,7 +714,7 @@ private fun ProjectDetailDialog(
                     // Progress slider
                     Column {
                         Text(
-                            text = "Progress: ${(editProgress * 100).toInt()}%",
+                            text = stringResource(R.string.progress_text, (editProgress * 100).toInt()),
                             style = MaterialTheme.typography.bodyMedium,
                             color = AmanotesColors.OnSurface
                         )
@@ -734,20 +744,36 @@ private fun ProjectDetailDialog(
                     }
                     
                     Column {
-                        Text("Progress: ${(project.progress * 100).toInt()}%")
+                        Text(stringResource(R.string.progress_text, (project.progress * 100).toInt()))
                         PremiumProgressBar(progress = project.progress)
                     }
                     
                     project.dueDate?.let { dueDate ->
+                        val dialogContext = LocalContext.current
+                        val currentLocale = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                            dialogContext.resources.configuration.locales[0]
+                        } else {
+                            @Suppress("DEPRECATION")
+                            dialogContext.resources.configuration.locale
+                        }
+                        val formattedDate = SimpleDateFormat("MMM dd, yyyy", currentLocale).format(Date(dueDate))
                         Text(
-                            text = "Due: ${SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(dueDate))}",
+                            text = stringResource(R.string.due_date_format, formattedDate),
                             style = MaterialTheme.typography.bodyMedium,
                             color = AmanotesColors.OnSurfaceVariant
                         )
                     }
                     
+                    val dialogContext = LocalContext.current
+                    val currentLocale = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                        dialogContext.resources.configuration.locales[0]
+                    } else {
+                        @Suppress("DEPRECATION")
+                        dialogContext.resources.configuration.locale
+                    }
+                    val createdDate = SimpleDateFormat("MMM dd, yyyy", currentLocale).format(Date(project.createdAt))
                     Text(
-                        text = "Created ${SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(project.createdAt))}",
+                        text = stringResource(R.string.created, createdDate),
                         style = MaterialTheme.typography.bodySmall,
                         color = AmanotesColors.OnSurfaceVariant
                     )
