@@ -42,6 +42,7 @@ import com.example.amanotes.ui.compose.screens.NotesScreen
 import com.example.amanotes.ui.compose.screens.ProfileSettingsScreen
 import com.example.amanotes.ui.compose.screens.ProjectDetailsScreen
 import com.example.amanotes.ui.compose.theme.AmanotesTheme
+import com.example.amanotes.ui.compose.utils.LocaleAwareContent
 import com.example.amanotes.ui.main.MainViewModel
 
 class MainActivity : ComponentActivity() {
@@ -74,24 +75,29 @@ class MainActivity : ComponentActivity() {
             val userPreferences = remember { ServiceLocator.provideUserPreferences(context) }
             val mainViewModel = remember { MainViewModel(authRepository, userPreferences) }
             
-            // Collect states
+            // Collect states - including language for reactive updates
             val darkMode by mainViewModel.darkMode.collectAsStateWithLifecycle(initialValue = true)
             val appTheme by mainViewModel.appTheme.collectAsStateWithLifecycle()
             val isAuthenticated by mainViewModel.isAuthenticated.collectAsStateWithLifecycle()
+            val languageCode by userPreferences.language.collectAsStateWithLifecycle(initialValue = "en")
             
-            AmanotesTheme(appTheme = appTheme, darkTheme = darkMode) {
-                Surface(color = MaterialTheme.colorScheme.background) {
-                    when (isAuthenticated) {
-                        null -> LoadingScreen(stringResource(R.string.checking_authentication))
-                        else -> AppNav(
-                            darkMode = darkMode,
-                            appTheme = appTheme,
-                            onToggleDark = mainViewModel::toggleDarkMode,
-                            onThemeChange = mainViewModel::updateAppTheme,
-                            isAuthenticated = isAuthenticated,
-                            onAuthSuccess = mainViewModel::onAuthenticationSuccess,
-                            onLogout = mainViewModel::onLogout
-                        )
+            // Wrap the entire app in locale-aware context
+            // When languageCode changes, the context is recreated and UI recomposes
+            LocaleAwareContent(languageCode = languageCode) {
+                AmanotesTheme(appTheme = appTheme, darkTheme = darkMode) {
+                    Surface(color = MaterialTheme.colorScheme.background) {
+                        when (isAuthenticated) {
+                            null -> LoadingScreen(stringResource(R.string.checking_authentication))
+                            else -> AppNav(
+                                darkMode = darkMode,
+                                appTheme = appTheme,
+                                onToggleDark = mainViewModel::toggleDarkMode,
+                                onThemeChange = mainViewModel::updateAppTheme,
+                                isAuthenticated = isAuthenticated,
+                                onAuthSuccess = mainViewModel::onAuthenticationSuccess,
+                                onLogout = mainViewModel::onLogout
+                            )
+                        }
                     }
                 }
             }

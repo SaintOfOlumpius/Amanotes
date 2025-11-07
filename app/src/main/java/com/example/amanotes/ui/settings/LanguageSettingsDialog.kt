@@ -1,16 +1,11 @@
 package com.example.amanotes.ui.settings
 
-import android.app.Activity
-import android.content.Intent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
-import com.example.amanotes.MainActivity
 import com.example.amanotes.R
 import com.example.amanotes.ui.components.LanguageSelector
 import com.example.amanotes.utils.LocaleManager
@@ -45,24 +40,10 @@ fun LanguageSettingsDialog(
                         currentLanguage = language
                         scope.launch {
                             try {
-                                // Save the language preference and wait for it to complete
+                                // Save the language preference - UI will update automatically
                                 viewModel.updateLanguageAndWait(language.code)
-                                
-                                // Verify it was saved by checking the flow
-                                val savedLanguage = viewModel.language.first()
-                                if (savedLanguage == language.code) {
-                                    // Close dialog first
-                                    onDismiss()
-                                    // Small delay to let dialog close animation complete
-                                    kotlinx.coroutines.delay(150)
-                                    // Then restart the activity to apply the new locale
-                                    if (context is Activity) {
-                                        restartActivity(context)
-                                    }
-                                } else {
-                                    // If save didn't work, just close dialog
-                                    onDismiss()
-                                }
+                                // Close dialog - no restart needed!
+                                onDismiss()
                             } catch (e: Exception) {
                                 // If there's an error, just close the dialog
                                 onDismiss()
@@ -80,12 +61,4 @@ fun LanguageSettingsDialog(
     )
 }
 
-/**
- * Restart the activity to apply the new language
- * Using recreate() is more reliable than killing the process
- */
-private fun restartActivity(activity: Activity) {
-    // Use recreate() which properly recreates the activity with new configuration
-    activity.recreate()
-}
 
